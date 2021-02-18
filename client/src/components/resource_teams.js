@@ -1,6 +1,4 @@
 import React from 'react';
-import {resourceData} from "./resource_data";
-
 
 /*
 Class Name: ResourceTeam
@@ -15,29 +13,49 @@ class ResourceTeam extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            team_name:""
+            team_name:"",
+            threshold:'',
+            emplist:[]
         };
-
+        this.teamNames=[];
         this.handleChange = this.handleChange.bind(this);
-           
-        var teamName=resourceData.map(data => (data.team_name) );
-        this.teamName= Array.from(new Set(teamName));
+        
     }
     
-    handleChange(event) {        
+    handleChange(event) {
         const value = event.target.value;
+       // console.log(this.data.filter(team=>team.team_name == value)[0].emp)
         this.setState({
-            team_name: value
+            team_name: value,
+            threshold : this.data.filter(team=>team.team_name == value)[0].threshold,
+            emplist: this.data.filter(team=>team.team_name == value)[0].emp,
+
         });  
     }
+    componentDidMount(){
+        fetch('http://localhost:5000/team').
+        then((response)=>response.json()).
+        then((result)=>{
+            this.data = result;
+            this.teamNames = result.map(ele=>ele.team_name);
+            const value = this.teamNames[0]
+           // console.log(this.data);
+           this.setState({
+            team_name:"",
+            threshold:'',
+            emplist:[]
+        });  
+        });
+    }
          
-    render() {       
+    render() {    
         return(
             <>
                 <div>
                     <label>TEAM NAMES </label>
                     <select value={this.state.team_name} onChange={this.handleChange}>
-                        {this.teamName.map((item,index)=>{ 
+                    <option value="" disabled>Select</option>
+                        {this.teamNames.map((item,index)=>{ 
                             return(
                                 <option key={index} value={item}>{item}</option>
                             );
@@ -48,24 +66,22 @@ class ResourceTeam extends React.Component {
                     {this.state.team_name.length>0 ? (
                         <div>
                             <h4>TEAM DETAILS</h4>
-                            <table border={1}> 
-                                <tbody>
+                            
+                            <h5>Team Name :{this.state.team_name}</h5>
+                            <h5>Team Threshold :{this.state.threshold}</h5>
+                            <table className="table table-bordered">
+                                <thead className="thead-light"> 
                                     <tr>
                                         <th>EMPLOYEE ID</th>
                                         <th>EMPLOYEE NAME</th>
-                                        <th>EMAIL</th>
                                     </tr>
-                                    {resourceData.map(item=>{
-                                        if(this.state.team_name===item.team_name){
-                                            return(
-                                                <tr>
-                                                    <td>{item.id}</td>
-                                                    <td>{item.name}</td>
-                                                    <td>{item.email}</td>
-                                                </tr>
-                                            );
-                                        }
-                                    })}
+                                </thead>
+                                <tbody>
+                                    {
+                                        this.state.emplist.map((emp)=>{
+                                            return(<tr key={emp.id}><td>{emp.id}</td><td>{emp.name}</td></tr>)
+                                        })
+                                    }
                                 </tbody>
                             </table>
                         </div>  
