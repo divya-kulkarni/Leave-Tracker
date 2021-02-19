@@ -1,5 +1,5 @@
 import React from 'react';
-
+import './navbar/navbar.css';
 /*
 Class Name: ResourceTeam
 Constructor Used For: 1.Initializing the local state of a component. 
@@ -51,7 +51,7 @@ class ResourceTeam extends React.Component {
     render() {    
         return(
             <>
-                <div>
+                <div className='resource-list'>
                     <label>TEAM NAMES </label>
                     <select value={this.state.team_name} onChange={this.handleChange}>
                     <option value="" disabled>Select</option>
