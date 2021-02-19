@@ -23,12 +23,12 @@ function Navbar() {
           </Grid>
         </div>
         <div className='nav-menu'>
-          <ul className='nav-menu-items'>
+          <ul className='nav-menu-items active'>
           <div className='avatar-item'>
             <div className={classes.root} >
-              <Avatar alt="Jordan Fisher" src="./components/images/jordan-avatar.jpg" className={classes.large}/>
+              <Avatar alt="Jordan" src="./components/images/jordan-avatar.jpg" className={classes.large}/>
             </div>
-            <h4 className='nav-text'>Jordan Fisher</h4>
+            <h4 className='avatar'>Jordan</h4>
           </div>
             {SidebarData.map((item, index) => {
               return (
