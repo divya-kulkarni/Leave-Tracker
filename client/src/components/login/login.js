@@ -1,4 +1,5 @@
 import React from 'react';
+import './login.css';
 
 class Login extends React.Component {
     constructor(props) {
@@ -35,22 +36,16 @@ class Login extends React.Component {
   
     render() {
       return (
-        <div className="card">
-            <article className="card-body">
-            <h4 className="card-title text-center mb-4 mt-1">Sign in</h4>
-	        <hr/>
-                <form onSubmit={this.handleSubmit}>
-                    <div className="form-group">
-                        <input name="employee_id" type="text" className="form-control" value={this.state.employee_id} onChange={this.handleChange} placeholder="Employee id"/>
-                    </div>
-                    <div className="form-group">
-                        <input name ="pass" type="password" className="form-control" value={this.state.pass} onChange={this.handleChange} placeholder="Password"/>
-                    </div>
-                    <div className="form-group">
-	                    <button type="submit" className="btn btn-primary btn-block"> Login  </button>
-	                </div>
-                </form>
-            </article>
+        <div className="login-bg">
+          <form onSubmit={this.handleSubmit}>
+            <h2>Sign in</h2>
+            <br/>  
+            <input className="form-input" id="txt-input" name="employee_id" type="text" placeholder="Employee Id" required value={this.state.employee_id} onChange={this.handleChange}/>
+            <br/><br/>                    
+            <input className="form-input" id="pwd" name ="pass" type="password" placeholder="Password" required value={this.state.pass} onChange={this.handleChange}/>
+            <br/>                   
+            <button type="submit"><b>Log In </b></button>      
+          </form>
         </div>
       );
     }

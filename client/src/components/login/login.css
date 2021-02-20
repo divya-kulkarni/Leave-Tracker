@@ -1,0 +1,75 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    overflow: hidden;    
+}
+
+
+.login-bg {
+    background-color: #060b26;  
+    height: 100vh;
+    padding: 10%;
+}
+
+
+h2 {
+    text-align: center;
+    color: white;
+}
+
+
+form {
+    width: 40%;
+    min-height: 50%;
+    height: auto;
+    border-radius: 1%;
+    margin: auto;
+    padding: 5%;
+    background-color:coral;       
+}
+
+
+input[class="form-input"] {
+    width: 70%;
+    height: 2%;
+    padding: 5%; 
+    outline: none;
+    border: none; 
+    border-radius: 0% 5% 5% 0%; 
+    margin: 0% 15%;     
+}
+
+
+button {
+    color: coral;  
+    width: 150px;
+    height: 40px;  
+    background: #fff;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    margin: 7% auto;
+    display: flex;    
+    justify-content: center;
+    align-items: center;
+    font-size: large;
+}
+
+/* buttons hover */
+button:hover {
+    transform: translatey(3px);
+    box-shadow: none;
+    animation: ani9 0.4s ease-in-out infinite alternate;      /* buttons hover Animation */
+}
+
+
+@keyframes ani9 {
+    0% {
+        transform: translateY(3px);
+    }
+    100% {
+        transform: translateY(5px);
+    }
+}
