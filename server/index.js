@@ -18,7 +18,7 @@ app.post('/login',(req,res)=>{
             if(err)   
                 res.json({
                     success : false,
-                    message : 'ERROR FETCHING DATA'
+                    message : err
                 });
 
             if(result.length == 0)

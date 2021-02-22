@@ -1,6 +1,5 @@
 import React from 'react';
 import '../../CSS/navbar.css';
-import AddLeaveModal from '../AddLeave/AddLeaveModal';
 import '../../CSS/addLeaveBtn.css';
 /*
 Class Name: ResourceTeam
@@ -88,9 +87,6 @@ class ResourceTeam extends React.Component {
                             </table>
                         </div>
                     ) : null}
-                    <div className='add-leave-btn'>
-                        <AddLeaveModal />
-                    </div>
                 </div>
             </>
         );

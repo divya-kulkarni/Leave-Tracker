@@ -1,14 +1,14 @@
 .floating-btn {
   position:fixed;
-	width: 8%;
-	height:8%;
-	bottom:10%;
-	right:10%;
+	width: 70px;
+	height: 70px;
+	bottom: 10%;
+	right:8%;
 	background-color:coral;
 	color:#FFF;
   display: inline-block;
   border: none;
-  border-radius: 100px;  
+  border-radius: 50%;
 }
 
 .floating-btn:focus{
@@ -46,4 +46,8 @@
 
 #addLeaveForm{
   margin: 0 auto;
+}
+
+.startDate .endDate{
+  width: 40%;
 }
