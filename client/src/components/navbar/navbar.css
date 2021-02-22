@@ -113,7 +113,7 @@ Avatar{
  align-items: flex-start;
 }
 
-.resource-list{
+.resource-list .dashboard .RiskChart{
   margin-left: 25%;
   margin-top: 12vh;
 }

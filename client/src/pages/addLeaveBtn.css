@@ -1,0 +1,49 @@
+.floating-btn {
+  position:fixed;
+	width: 8%;
+	height:8%;
+	bottom:10%;
+	right:10%;
+	background-color:coral;
+	color:#FFF;
+  display: inline-block;
+  border: none;
+  border-radius: 100px;  
+}
+
+.floating-btn:focus{
+  background-color:coral;
+  color:#fff;
+}
+
+.floating-btn:hover{
+  background-color:black;
+  color:#fff;
+  border: black;
+}
+
+.form-control{
+  width: 30%;
+}
+
+.modal-container{
+  height: 40vh;
+  width: 40%;
+  background-color: lightgray;
+  margin: 10% 30%;
+}
+
+.add-leave-modal{
+  padding-left: 20%;
+}
+
+.btn.btn-default,
+.btn.btn-default:focus{
+  background-color:black;
+  color:#fff;
+  border: black;
+}
+
+#addLeaveForm{
+  margin: 0 auto;
+}

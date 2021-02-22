@@ -2,8 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App.js';
-import Login from './components/login';
-import ResourceTeam from './components/resource_teams'
 
 ReactDOM.render(
   <React.StrictMode>
