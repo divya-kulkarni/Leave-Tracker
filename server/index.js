@@ -10,6 +10,7 @@ app.use(express.json());
 
 //Routes
 
+//Login 
 app.post('/login',(req,res)=>{
     var empid = req.body.employee_id;
     var pass = req.body.pass;
@@ -46,6 +47,37 @@ app.post('/login',(req,res)=>{
     }
 });
 
+//Adding leave
+app.post('/addLeave',(req,res) =>{
+    var start_dt= req.body.start_date,
+    end_dt=req.body.end_date,
+    emp_id=req.body.emp_id,
+    day_count;
+    console.log(new Date(end_dt));
+    console.log(start_dt);
+    if(start_dt == end_dt || !end_dt)
+        day_count=1;
+    else
+        day_count = differenceInDays(new Date(end_dt),new Date(start_dt)) +1;
+           
+    try{
+       conn.query('INSERT INTO leaves (start_date,end_date,leave_count,employee_id) VALUES (?,?,?,?);',[start_dt,end_dt,day_count,emp_id],(err,result)=>{
+            if(err)
+                console.log(err);
+            else{
+                console.log(result);
+                res.send({data: result.insertId,
+                table:"leave"});
+            }
+        });
+    }
+    catch(err)
+    {
+        console.log(err)
+    }
+});
+
+//Fetch team data and members
 app.get('/team',(req,res)=>{
     try{
         conn.query('select employee_name,employee_id,team_name,threshold from employee as e,employee_team as et, team as t where (e.employee_id=et.e_id AND et.t_id = t.team_id )',(err,results)=>{
