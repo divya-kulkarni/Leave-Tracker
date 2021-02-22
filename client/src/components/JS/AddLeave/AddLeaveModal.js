@@ -1,5 +1,5 @@
 import React from 'react'
-import './addLeaveBtn.css';
+import '../../CSS/addLeaveBtn.css';
 import { Button, Form, Modal } from 'react-bootstrap';
 
 class AddLeaveModal extends React.Component {

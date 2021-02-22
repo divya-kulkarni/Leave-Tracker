@@ -1,10 +1,10 @@
 import React from 'react';
-import './App.css';
-import Navbar from './components/navbar/navbar';
+import './components/CSS/App.css';
+import Navbar from './components/JS/Navbar/navbar';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import dashboard from './pages/dashboard';
-import RiskChart from './pages/risk-chart';
-import ResourceTeam from './components/resource_teams';
+import dashboard from './components/JS/Pages/Dashboard';
+import RiskChart from './components/JS/Pages/RiskChart';
+import ResourceTeam from './components/JS/Pages/ResourceTeam';
 
 //loads dashboard as the default component
 

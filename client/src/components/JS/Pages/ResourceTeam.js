@@ -1,7 +1,7 @@
 import React from 'react';
-import './navbar/navbar.css';
-import AddLeaveModal from '../pages/AddLeaveModal';
-import '../pages/addLeaveBtn.css';
+import '../../CSS/navbar.css';
+import AddLeaveModal from '../AddLeave/AddLeaveModal';
+import '../../CSS/addLeaveBtn.css';
 /*
 Class Name: ResourceTeam
 Constructor Used For: 1.Initializing the local state of a component. 

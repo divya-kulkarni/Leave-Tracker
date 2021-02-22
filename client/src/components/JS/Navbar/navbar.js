@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './navbar.css';
+import '../../CSS/navbar.css';
 import { Link } from 'react-router-dom';
 import { SidebarData } from './SidebarData';
 import { IconContext } from 'react-icons';
