@@ -48,6 +48,6 @@
   margin: 0 auto;
 }
 
-.startDate .endDate{
-  width: 40%;
+#startDate #endDate{
+ align-items: center;
 }

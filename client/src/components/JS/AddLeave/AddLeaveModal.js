@@ -1,10 +1,10 @@
 import React from 'react'
 import '../../CSS/addLeaveBtn.css';
 import { Button, Form, Modal } from 'react-bootstrap';
-import { moment } from 'react-moment';
+import DatePickerHelper from './DatePickerHelper';
 
 class AddLeaveModal extends React.Component {
-
+  
   constructor() {
     super();
     this.state = {
@@ -18,14 +18,6 @@ class AddLeaveModal extends React.Component {
     this.setState({
       show: !this.state.show
     })
-  }
-
-  handleDate(date) {
-      if(date <= moment()){
-          this.setState({
-              startDate: date
-          });
-      }
   }
 
   render() {
@@ -42,9 +34,15 @@ class AddLeaveModal extends React.Component {
               <Form.Group controlId="addLeaveForm">
                 <Form.Control name="empName" type="text" placeholder="Employee ID" />
                 <br />
-                <Form.Control type="date" onChange={() => {this.handleDate.bind(this)}} min={this.state.startDate} name="start-date" />
+                
+                {/* <Form.Control type="date" onChange={() => {this.handleDate.bind(this)}} min={this.state.startDate} name="start-date" />
                 <br />
-                <Form.Control type="date" name="endDate" />
+                <Form.Control type="date" name="endDate" /> */}
+                
+                <DatePickerHelper id='startState' className="start-date"/>
+                <br />
+                <DatePickerHelper id='endDate' className="end-date"/>
+
               </Form.Group>
               <Button className="btn btn-default submitBtn" type="submit" id="addLeaveBtn" onClick={() => { alert('Submitted!') }}>
                 Add
