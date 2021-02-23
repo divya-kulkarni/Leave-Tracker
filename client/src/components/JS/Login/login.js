@@ -37,14 +37,14 @@ class Login extends React.Component {
     render() {
       return (
         <div className="login-bg">
-          <form onSubmit={this.handleSubmit}>
-            <h2>Sign in</h2>
+          <form className="login-form" onSubmit={this.handleSubmit}>
+            <h2 style={{color: "white"}}><center>Sign in</center></h2>
             <br/>  
             <input className="form-input" id="txt-input" name="employee_id" type="text" placeholder="Employee Id" required value={this.state.employee_id} onChange={this.handleChange}/>
             <br/><br/>                    
             <input className="form-input" id="pwd" name ="pass" type="password" placeholder="Password" required value={this.state.pass} onChange={this.handleChange}/>
             <br/>                   
-            <button type="submit"><b>Log In </b></button>      
+            <button className="login-btn" type="submit"><b>Log In </b></button>      
           </form>
         </div>
       );

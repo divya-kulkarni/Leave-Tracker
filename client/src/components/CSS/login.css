@@ -13,13 +13,7 @@
 }
 
 
-h2 {
-    text-align: center;
-    color: white;
-}
-
-
-form {
+.login-form {
     width: 40%;
     min-height: 50%;
     height: auto;
@@ -30,7 +24,7 @@ form {
 }
 
 
-input[class="form-input"] {
+.form-input{
     width: 70%;
     height: 2%;
     padding: 5%; 
@@ -41,7 +35,7 @@ input[class="form-input"] {
 }
 
 
-button {
+.login-btn{
     color: coral;  
     width: 150px;
     height: 40px;  
@@ -58,7 +52,7 @@ button {
 }
 
 /* buttons hover */
-button:hover {
+.login-btn:hover {
     transform: translatey(3px);
     box-shadow: none;
     animation: ani9 0.4s ease-in-out infinite alternate;      /* buttons hover Animation */
