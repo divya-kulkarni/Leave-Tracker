@@ -1,6 +1,6 @@
 import React from 'react';
-import '../../CSS/navbar.css';
-import '../../CSS/addLeaveBtn.css';
+import '../../CSS/resourceTeam.css';
+
 /*
 Class Name: ResourceTeam
 Constructor Used For: 1.Initializing the local state of a component. 
@@ -53,41 +53,47 @@ class ResourceTeam extends React.Component {
         return (
             <>
                 <div className='resource-list'>
-                    <label>TEAM NAMES </label>
+                    <label><b>Team Names&nbsp;&nbsp;&nbsp;</b></label>
                     <select value={this.state.team_name} onChange={this.handleChange}>
-                        <option value="" disabled>Select</option>
+                        <option value="" disabled> Select</option>
                         {this.teamNames.map((item, index) => {
                             return (
                                 <option key={index} value={item}>{item}</option>
                             );
                         })}
                     </select>
-                    <br></br>
-                    <br></br>
-                    {this.state.team_name.length > 0 ? (
-                        <div>
-                            <h4>TEAM DETAILS</h4>
-
-                            <h5>Team Name :{this.state.team_name}</h5>
-                            <h5>Team Threshold :{this.state.threshold}</h5>
-                            <table className="table table-bordered">
-                                <thead className="thead-light">
-                                    <tr>
-                                        <th>EMPLOYEE ID</th>
-                                        <th>EMPLOYEE NAME</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        this.state.emplist.map((emp) => {
-                                            return (<tr key={emp.id}><td>{emp.id}</td><td>{emp.name}</td></tr>)
-                                        })
-                                    }
-                                </tbody>
+                </div>
+                <div>
+                {this.state.team_name.length > 0 ? (
+                    <div className='parent-resource-table'> 
+                        <div className='resource-table-details'>
+                        <h6><b>TEAM DETAILS</b></h6>
+                            <b>Team Name : {this.state.team_name}</b>
+                            <br></br>
+                            <b>Team Threshold : {this.state.threshold}</b>
+                            <br></br>
+                        </div>
+                        <div className='resource-table'>
+                            <table> 
+                            <thead>
+                                <tr>
+                                    <th>EMPLOYEE ID</th>
+                                    <th>EMPLOYEE NAME</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    this.state.emplist.map((emp) => {
+                                    return (<tr key={emp.id}><td>{emp.id}</td><td>{emp.name}</td></tr>)
+                                    })
+                                }
+                            </tbody>
                             </table>
                         </div>
-                    ) : null}
+                    </div>
+                    ) : null }
                 </div>
+                    
             </>
         );
     }

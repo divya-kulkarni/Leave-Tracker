@@ -1,0 +1,45 @@
+.resource-list{
+    margin-top:1%;
+    position: absolute;
+    right: 0;
+    width: 100%;
+    text-align: center;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    overflow: hidden;
+}
+
+
+.parent-resource-table{
+   
+    margin-top:5%;
+    position: absolute; 
+    right: 0;
+    width: 100%;
+    margin-left: 25%;
+    
+}
+
+
+.resource-table-details{
+    text-align: center;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: smaller;
+    overflow: hidden;
+}
+
+
+th{
+    background-color: #4CAF50;
+    color: white;
+}
+
+
+
+table{
+    margin-top:2%;
+    margin-left: 19%;
+    width: 75%;
+    height: 20vh;
+    overflow-x:auto;
+    overflow-y: auto;
+  }   
