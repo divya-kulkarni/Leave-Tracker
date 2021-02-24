@@ -86,7 +86,8 @@ app.post('/addLeave',(req,res) =>{
 //Fetch team data and members
 app.get('/team',(req,res)=>{
     try{
-        conn.query('select employee_name,employee_id,team_name,threshold from employee as e,employee_team as et, team as t where (e.employee_id=et.e_id AND et.t_id = t.team_id )',(err,results)=>{
+        const queryStmt = "select employee_name,employee_id,team_name,threshold from employee as e,employee_team as et, team as t where (e.employee_id=et.e_id AND et.t_id = t.team_id )"
+        conn.query(queryStmt,(err,results)=>{
             if(err)
                 console.log(err)
           
@@ -108,7 +109,8 @@ app.get('/team',(req,res)=>{
 //fetch employee list and leaves
 app.get('/employee',(req,res)=>{
     try{
-        conn.query("select e.employee_id,employee_name as name,leave_count as count,date_format(start_date,'%Y-%m-%d') as start_date from employee as e,leaves as l where e.employee_id = l.employee_id",(err,results)=>{
+        const queryStmt = "select e.employee_id,employee_name as name,leave_count as count,date_format(start_date,'%Y-%m-%d') as start_date from employee as e,leaves as l where e.employee_id = l.employee_id;select employee_name, employee_id from employee ;"
+        conn.query(queryStmt,(err,results)=>{
             if(err)
             {   
                 res.json({
@@ -117,20 +119,19 @@ app.get('/employee',(req,res)=>{
                 })
                 
             }
-            if(results.length == 0)
+            if(results[1].length == 0)
             {   
                 res.json({
                     success : false,
-                    message : 'No such user exists'
+                    message : 'No employees'
                 })
             }
-            if(results.length>0)
+            if(results[1].length>0)
             {   
-                
-                var employees= results.map(emp=>({employee_id:emp.employee_id,name:emp.name,count:0,leaves:[]}));
+                var employees= results[1].map(emp=>({employee_id:emp.employee_id,name:emp.employee_name,count:0,leaves:[]}));
                 employees = [...new Map(employees.map(item=>[item.employee_id,item])).values()]
                 console.log(employees)
-                results.forEach(emp=>{
+                results[0].forEach(emp=>{
                     var index = employees.map((e)=>{return e.employee_id}).indexOf(emp.employee_id);
                     employees[index].leaves.push({start_date:startOfDay(new Date(emp.start_date)),count:emp.count});
                     employees[index].count+=emp.count;
@@ -149,7 +150,8 @@ app.get('/employee',(req,res)=>{
 //fetch Team detail with leave
 app.get('/teamLeave',(req,res)=>{
     try{
-        conn.query('select e_id,t_id,team_name,threshold,employee_name,leave_count,start_date from leaves as l,employee_team as et,employee as e,team as t where (et.e_id = l.employee_id and e.employee_id = et.e_id and t.team_id = et.t_id);select t_id , count(e_id) as emp_count from employee_team group by t_id;',(err,results)=>{
+        const queryStmt="select e_id,t_id,team_name,threshold,employee_name,leave_count,start_date from leaves as l,employee_team as et,employee as e,team as t where (et.e_id = l.employee_id and e.employee_id = et.e_id and t.team_id = et.t_id);select t_id , count(e_id) as emp_count from employee_team group by t_id;"
+        conn.query(queryStmt,(err,results)=>{
             if(err){
                 res.json({
                     success : false,
