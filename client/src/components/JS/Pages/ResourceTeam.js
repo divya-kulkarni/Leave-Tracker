@@ -73,15 +73,15 @@ class ResourceTeam extends React.Component {
                             <b>Team Threshold : {this.state.threshold}</b>
                             <br></br>
                         </div>
-                        <div className='resource-table'>
-                            <table> 
-                            <thead>
+                        <div className='child-resource-table'>
+                            <table id='resource-table'> 
+                            <thead> 
                                 <tr>
-                                    <th>EMPLOYEE ID</th>
-                                    <th>EMPLOYEE NAME</th>
+                                    <th className='resource-table-header'>EMPLOYEE ID</th>
+                                    <th className='resource-table-header'>EMPLOYEE NAME</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody className='resource-table-body'>
                                 {
                                     this.state.emplist.map((emp) => {
                                     return (<tr key={emp.id}><td>{emp.id}</td><td>{emp.name}</td></tr>)
