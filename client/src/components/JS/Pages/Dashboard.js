@@ -93,8 +93,8 @@ export default class Dashboard extends React.Component{
         return(
         <table className="table table-bordered">
             <thead className="thead-light">
-                <tr>
-                    {['','','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'].map((val,i)=>(<th key={i}>{val}</th>))}
+                <tr><th colSpan={2}><h5>{this.state.monthname}/{format(this.state.month[1][3],'yyyy')}</h5></th>
+                    {['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'].map((val,i)=>(<th key={i}>{val}</th>))}
                 </tr>
             </thead>
             <tbody>
@@ -104,11 +104,12 @@ export default class Dashboard extends React.Component{
                     {this.state.week.map((day)=>{
                         const style= isSameDay(day,this.state.curr)?{backgroundColor:"#99bbff"} : {backgroundColor:""};
                         return(
-                        <th style={style}>{format(day,'d/LLL/yy')}</th>)
+                        <th style={style}>{format(day,'dd')}</th>)
                     })}
                 </tr>
                 {
-                    this.state.data.map((val)=>{
+                    this.state.data.map((val,i)=>{
+                        const style = i%2==0?{backgroundColor: "coral"} : {backgroundColor: "#ffdacc"};
                         return(
                             <tr key={val.employee_id}>
                                 <td>{val.name}</td>
@@ -119,7 +120,7 @@ export default class Dashboard extends React.Component{
                                         isWithinInterval(this.state.week[i],{start:new Date(ele.start_date),end:addDays( new Date(ele.start_date),ele.count-1)}) ? off = true: null
                                     )
                                     return(
-                                        off ? (<td style={{backgroundColor: "coral"}}></td>):<td></td>)
+                                        off ? (<td style={style}></td>):<td></td>)
                                 })}
                             </tr>
                         );

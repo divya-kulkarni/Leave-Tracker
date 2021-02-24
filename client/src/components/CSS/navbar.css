@@ -115,9 +115,9 @@ Avatar{
 
 .dashboard ,.RiskChart{
   margin-top:12vh;
-  position: absolute;
+  position: relative;
   right: 0;
-  width: 81%;
-  margin-left: 25%;
-  overflow: hidden;
+  width: 80%;
+  margin-left: 19%;
+  
 }

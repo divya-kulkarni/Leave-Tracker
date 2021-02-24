@@ -32,7 +32,7 @@
 }
 
 .child-resource-table{
-    background-color:lightcyan;
+    
     max-height: 60vh;
     overflow: auto;
     width:80%;
