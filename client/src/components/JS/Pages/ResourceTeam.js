@@ -74,7 +74,7 @@ class ResourceTeam extends React.Component {
                             <br></br>
                         </div>
                         <div className='child-resource-table'>
-                            <table id='resource-table'> 
+                            <table className='resource-table'> 
                             <thead> 
                                 <tr>
                                     <th className='resource-table-header'>EMPLOYEE ID</th>
