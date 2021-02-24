@@ -1,11 +1,11 @@
 .resource-list{
-    margin-top:5%;
+    margin-top:2%;
     position: absolute;
     right: 0;
     width: 100%;
-    text-align: center;
+    text-align: left;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    margin-left:10%;
+    padding-left: 27.5%;
 }
 
 .parent-resource-table{
