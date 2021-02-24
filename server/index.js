@@ -3,7 +3,7 @@ const app = express();
 const port = 5000;
 const cors = require('cors');
 const conn = require('./db/dbconn');
-const {differenceInDays,startOfDay} = require('date-fns');
+const {differenceInDays,startOfDay,format,addDays} = require('date-fns');
 
 //middleware
 app.use(cors());
@@ -50,23 +50,28 @@ app.post('/login',(req,res)=>{
 
 //Adding leave
 app.post('/addLeave',(req,res) =>{
-    var start_dt= req.body.start_date,
-    end_dt=req.body.end_date,
-    emp_id=req.body.emp_id,
+    var start_dt= req.body.startDate,
+    end_dt=req.body.endDate,
+    emp_id=req.body.employee_id,
     day_count;
-    console.log(new Date(end_dt));
-    console.log(start_dt);
-    if(start_dt == end_dt || !end_dt)
+    
+    if(start_dt == end_dt || !end_dt){
         day_count=1;
-    else
+        end_dt=null;
+    }
+    else{
         day_count = differenceInDays(new Date(end_dt),new Date(start_dt)) +1;
-           
+        console.log(day_count)
+        end_dt=format(startOfDay(new Date(end_dt)),'yyyy-MM-dd')
+    }   
+    start_dt = format(startOfDay(new Date(start_dt)),'yyyy-MM-dd')   
     try{
+
        conn.query('INSERT INTO leaves (start_date,end_date,leave_count,employee_id) VALUES (?,?,?,?);',[start_dt,end_dt,day_count,emp_id],(err,result)=>{
             if(err)
                 console.log(err);
             else{
-                console.log(result);
+                
                 res.send({data: result.insertId,
                 table:"leave"});
             }

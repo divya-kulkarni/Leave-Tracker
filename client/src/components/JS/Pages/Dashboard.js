@@ -11,11 +11,12 @@ export default class Dashboard extends React.Component{
         const week = genWeek()();
         const month = genMonth()();
         const monthname = format(new Date,'MMMM')
-        this.state = {curr: new Date(),week:week,data:[],monthly:false,month:month,monthname:monthname};
+        this.state = {curr: new Date(),week:week,data:[],monthly:false,month:month,monthname:monthname,refresh:false};
         this.Prev =this.Prev.bind(this);
         this.Next =this.Next.bind(this);
         this.Today = this.Today.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.refresh = this.refresh.bind(this);
     }
 
     handleChange(event){
@@ -25,6 +26,10 @@ export default class Dashboard extends React.Component{
         else{
             this.setState({monthly:false});
         }
+    }
+    refresh(){
+        window.location.reload();
+        this.setState({refresh:!this.state.refresh});
     }
 
     Today(){
@@ -63,7 +68,7 @@ export default class Dashboard extends React.Component{
             this.setState({month:month,monthname:monthname});
         }
     }
-
+    
     componentDidMount(){
         fetch('http://localhost:5000/employee').
         then((response)=>response.json()).
@@ -181,6 +186,13 @@ export default class Dashboard extends React.Component{
         )
     }
 
+    renderButton(){
+        if(this.state.data.length!=0)
+            return (<AddLeaveModal refresh={this.refresh} leaves={this.state.data.filter(emp=>emp.employee_id == 103)[0].leaves}/>)
+        else
+            return(<AddLeaveModal/>)
+    }
+
     render(){
         return(
             <div className="dashboard">
@@ -200,8 +212,11 @@ export default class Dashboard extends React.Component{
                     </div>
                 </div>
                 {this.state.monthly ? this.getMonthlyCalendar(): this.getWeeklyCalendar()}
-                <div className='add-leave-btn'>
-                  <AddLeaveModal />
+                <div>
+                    <div className='add-leave-btn'>
+                      {this.renderButton()}
+                      
+                    </div>
                 </div>
             </div>
         );
