@@ -1,18 +1,35 @@
-import React from 'react'
+import React from 'react';
 import '../../CSS/addLeaveBtn.css';
 import { Button, Form, Modal } from 'react-bootstrap';
-import DatePickerHelper from './DatePickerHelper';
+import DatePicker from 'react-date-picker';
+import {isWithinInterval,addDays} from 'date-fns';
 
 class AddLeaveModal extends React.Component {
-  
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       show: false,
-      startDate: new Date()
+      startDate: '',
+      employee_id: null,
+      endDate: ''
     }
-    console.log(this.state.startDate);
+    
+    this.handleModal = this.handleModal.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.tileToDisable = this.tileToDisable.bind(this);
+    
   }
+
+  handleChange(event) {
+    const value = event.target.value;
+    const name= event.target.name;
+    this.setState({
+      [name] : value
+    });
+  }
+
+
 
   handleModal() {
     this.setState({
@@ -20,31 +37,54 @@ class AddLeaveModal extends React.Component {
     })
   }
 
+  async handleSubmit(event) {
+    event.preventDefault();
+    console.log(this.state);
+    console.log('employee id: ' + this.state.employee_id + '  start date:'+this.state.startDate + ' end date:'+this.state.endDate);
+    const result = await fetch("http://localhost:5000/addLeave",{
+        method:"POST",
+        headers:{ "Content-Type": "application/json" },
+        body:JSON.stringify(this.state)
+    });
+    const data=await result.json();
+    console.log(data);
+    this.setState({show:false});
+    this.props.refresh();
+    //console.log(this.props);
+}
+
+tileToDisable(date){
+  var flag =false;
+  this.props.leaves.forEach(ele => {
+    if(isWithinInterval(date.date,{start:new Date(ele.start_date),end:addDays( new Date(ele.start_date),ele.count-1)}))
+        flag=true;
+  });
+  return flag;
+}
+
   render() {
     return (
       <div>
         <Button className='floating-btn' onClick={() => { this.handleModal() }}>&#10010;</Button>
-        <Modal show={this.state.show} onHide={() => { this.handleModal() }}>
+        <Modal className='LeaveModal' show={this.state.show} onHide={() => { this.handleModal() }}>
           <Modal.Header>
             Add Leave To Track Risk
             <Button className="btn btn-default add-leave" onClick={() => { this.handleModal() }}>&times;</Button>
           </Modal.Header>
           <Modal.Body>
-            <Form>
+            <Form onSubmit={this.handleSubmit}>
               <Form.Group controlId="addLeaveForm">
-                <Form.Control name="empName" type="text" placeholder="Employee ID" />
+              <Form.Label>Employee ID</Form.Label>
+                <Form.Control name="employee_id" type="text" onChange={this.handleChange}/>
                 <br />
-                
-                {/* <Form.Control type="date" onChange={() => {this.handleDate.bind(this)}} min={this.state.startDate} name="start-date" />
+                <Form.Label>Start Date</Form.Label>
+                <DatePicker name='startdate' className="start-date" value={this.state.startDate} onChange={value => this.setState({ startDate: value })} minDate={new Date()} tileDisabled={this.tileToDisable}/>
                 <br />
-                <Form.Control type="date" name="endDate" /> */}
-                
-                <DatePickerHelper id='startState' className="start-date"/>
-                <br />
-                <DatePickerHelper id='endDate' className="end-date"/>
+                <Form.Label>End Date</Form.Label>
+                <DatePicker name='enddate' className="end-date" value={this.state.endDate} onChange={value => this.setState({ endDate: value })} minDate={new Date(this.state.startDate)} tileDisabled={this.tileToDisable}/>
 
               </Form.Group>
-              <Button className="btn btn-default submitBtn" type="submit" id="addLeaveBtn" onClick={() => { alert('Submitted!') }}>
+              <Button className="btn btn-default submitBtn" type="submit" id="addLeaveBtn">
                 Add
               </Button>
             </Form>

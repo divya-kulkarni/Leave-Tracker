@@ -7,7 +7,6 @@
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-
 .parent-resource-table{
     margin-top:5%;
     position: absolute; 
@@ -17,14 +16,12 @@
     
 }
 
-
 .resource-table-details{
     text-align: center;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: smaller;
     margin-bottom: 2%;
 }
-
 
 th{
     background-color: #4CAF50;
