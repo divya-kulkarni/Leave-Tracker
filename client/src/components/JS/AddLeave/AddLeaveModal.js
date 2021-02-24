@@ -1,7 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react';
 import '../../CSS/addLeaveBtn.css';
 import { Button, Form, Modal } from 'react-bootstrap';
-import DatePickerHelper from './DatePickerHelper';
+import DatePicker from 'react-date-picker';
+
+function DatePickerHelper(props) {
+  const [value, onChange] = useState(new Date());
+  var today = new Date();
+
+  console.log(props.minDate);
+
+  return (
+    <div>
+      <DatePicker
+        onChange = {onChange}
+        format = 'dd-MM-yy'
+        value = {value}
+        minDate = {props.minDate}
+      />
+    </div>
+  );
+}
 
 class AddLeaveModal extends React.Component {
   
@@ -9,9 +27,22 @@ class AddLeaveModal extends React.Component {
     super();
     this.state = {
       show: false,
-      startDate: new Date()
+      startDate: '',
+      employee_id: null,
+      endDate: ''
     }
-    console.log(this.state.startDate);
+    
+    this.handleModal = this.handleModal.bind(this);
+    //this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    const value = event.target.value;
+    const name= event.target.name;
+    this.setState({
+      [name] : value
+    });
   }
 
   handleModal() {
@@ -20,11 +51,26 @@ class AddLeaveModal extends React.Component {
     })
   }
 
+//   async handleSubmit(event) {
+//     event.preventDefault();
+//     console.log(this.state);
+//     console.log('employee id: ' + this.state.employee_id + '  start date:'+this.state.startDate + ' end date:'+this.state.endDate);
+//     const result = await fetch("http://localhost:5000/addLeave",{
+//         method:"POST",
+//         headers:{ "Content-Type": "application/json" },
+//         body:JSON.stringify(this.state)
+//     });
+//     const data=await result.json();
+//     console.log(data);
+    
+//     alert(data.message);
+// }
+
   render() {
     return (
       <div>
         <Button className='floating-btn' onClick={() => { this.handleModal() }}>&#10010;</Button>
-        <Modal show={this.state.show} onHide={() => { this.handleModal() }}>
+        <Modal className='LeaveModal' show={this.state.show} onHide={() => { this.handleModal() }}>
           <Modal.Header>
             Add Leave To Track Risk
             <Button className="btn btn-default add-leave" onClick={() => { this.handleModal() }}>&times;</Button>
@@ -32,19 +78,17 @@ class AddLeaveModal extends React.Component {
           <Modal.Body>
             <Form>
               <Form.Group controlId="addLeaveForm">
-                <Form.Control name="empName" type="text" placeholder="Employee ID" />
+              <Form.Label>Employee ID</Form.Label>
+                <Form.Control name="empName" type="text" onChange={this.handleChange}/>
                 <br />
-                
-                {/* <Form.Control type="date" onChange={() => {this.handleDate.bind(this)}} min={this.state.startDate} name="start-date" />
+                <Form.Label>Start Date</Form.Label>
+                <DatePickerHelper id='startDate' className="start-date" value={this.state.startDate} onChange={this.handleChange} minDate={new Date()} />
                 <br />
-                <Form.Control type="date" name="endDate" /> */}
-                
-                <DatePickerHelper id='startState' className="start-date"/>
-                <br />
-                <DatePickerHelper id='endDate' className="end-date"/>
+                <Form.Label>End Date</Form.Label>
+                <DatePickerHelper id='endDate' className="end-date" value={this.state.endDate} onChange={this.handleChange} minDate={new Date(this.state.startDate)}/>
 
               </Form.Group>
-              <Button className="btn btn-default submitBtn" type="submit" id="addLeaveBtn" onClick={() => { alert('Submitted!') }}>
+              <Button className="btn btn-default submitBtn" type="submit" id="addLeaveBtn">
                 Add
               </Button>
             </Form>

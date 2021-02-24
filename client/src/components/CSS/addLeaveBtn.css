@@ -24,17 +24,7 @@
 
 .form-control{
   width: 30%;
-}
-
-.modal-container{
-  height: 40vh;
-  width: 40%;
-  background-color: lightgray;
-  margin: 10% 30%;
-}
-
-.add-leave-modal{
-  padding-left: 20%;
+  margin: auto;
 }
 
 .btn.btn-default,
@@ -48,6 +38,7 @@
   margin: 0 auto;
 }
 
-#startDate #endDate{
- align-items: center;
+.LeaveModal{
+  
+  top: 80px;
 }

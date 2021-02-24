@@ -8,9 +8,7 @@
     overflow: hidden;
 }
 
-
 .parent-resource-table{
-   
     margin-top:5%;
     position: absolute; 
     right: 0;
@@ -19,7 +17,6 @@
     
 }
 
-
 .resource-table-details{
     text-align: center;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -27,19 +24,21 @@
     overflow: hidden;
 }
 
-
 th{
     background-color: #4CAF50;
     color: white;
 }
 
+tbody{
+    height: 100%;
+    overflow-y: auto;
+    width: 100%;
 
+}
 
-table{
+.resource-table{
     margin-top:2%;
     margin-left: 19%;
-    width: 75%;
-    height: 20vh;
-    overflow-x:auto;
-    overflow-y: auto;
+    width: 100%;
   }   
+  
