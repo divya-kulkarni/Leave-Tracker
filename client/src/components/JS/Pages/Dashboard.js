@@ -92,21 +92,21 @@ export default class Dashboard extends React.Component{
     getWeeklyCalendar(){
         return(
         <table className="table table-bordered">
-            <thead className="thead-light">
-                <tr><th colSpan={2}><h5>{this.state.monthname}/{format(this.state.month[1][3],'yyyy')}</h5></th>
+            <thead className="sticky-header">
+                <tr className="thead-dark"><th colSpan={2}><h5>{this.state.monthname}/{format(this.state.month[1][3],'yyyy')}</h5></th>
                     {['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'].map((val,i)=>(<th key={i}>{val}</th>))}
                 </tr>
-            </thead>
-            <tbody>
-                <tr>
+                <tr className="thead-light">
                     <th keys={'em_name'}>Employee Name</th>
                     <th keys={'count'}>Total Leave</th>
                     {this.state.week.map((day)=>{
-                        const style= isSameDay(day,this.state.curr)?{backgroundColor:"#99bbff"} : {backgroundColor:""};
+                        const style= isSameDay(day,this.state.curr)?{backgroundColor:"#839b97"} : {backgroundColor:""};
                         return(
                         <th style={style}>{format(day,'dd')}</th>)
                     })}
                 </tr>
+            </thead>
+            <tbody>
                 {
                     this.state.data.map((val,i)=>{
                         const style = i%2==0?{backgroundColor: "coral"} : {backgroundColor: "#ffdacc"};
@@ -134,20 +134,20 @@ export default class Dashboard extends React.Component{
     {
         return(
             <table className="table table-bordered">
-            <thead className="thead-light">
-                <tr>
-                    <td colSpan={getDaysInMonth(this.state.month[1][3])+1}>
+            <thead className="sticky-header">
+                <tr className="thead-dark">
+                    <th colSpan={getDaysInMonth(this.state.month[1][3])+1}>
                         <h4 className='text-center'>{this.state.monthname}/{format(this.state.month[1][3],'yyyy')}</h4>
-                    </td>
+                    </th>
                 </tr>
-                <tr>
+                <tr className="thead-light">
                     <th keys={'em_name'}>Employee</th>
                     {this.state.month.map((week,i)=>(
                         week.map(day=>{
                             if(day < startOfMonth(this.state.month[1][3]) || day > lastDayOfMonth(this.state.month[1][3]))
                                 return null;
                             else
-                                { const style= isSameDay(day,this.state.curr)?{backgroundColor:"#99bbff"} : {backgroundColor:""};
+                                { const style= isSameDay(day,this.state.curr)?{backgroundColor:"#839b97"} : {backgroundColor:""};
                                   return(<th style={style}>{format(day,'dd')}</th>)}
                             })
                     ))}
@@ -155,7 +155,8 @@ export default class Dashboard extends React.Component{
             </thead>
             <tbody>
                 {
-                   this.state.data.map(emp=>{
+                   this.state.data.map((emp,i)=>{
+                        const style = i%2==0?{backgroundColor: "coral"} : {backgroundColor: "#ffdacc"};
                         return(
                             <tr>
                                 <td>{emp.name}</td>
@@ -171,7 +172,7 @@ export default class Dashboard extends React.Component{
                                             isWithinInterval(day,{start:new Date(ele.start_date),end:addDays( new Date(ele.start_date),ele.count-1)}) ? off = true: null
                                             )
                                             return(
-                                              off ? (<td style={{backgroundColor: "coral"}}></td>):<td></td>)
+                                              off ? (<td style={style}></td>):<td></td>)
                                         }
                                       })
                                   );
@@ -199,20 +200,20 @@ export default class Dashboard extends React.Component{
             <div className="dashboard">
                 <div className="row">
                     <div className="col">
-                        <button className="btn btn-dark" onClick={this.Prev}>{'<'}</button>____
-                        <button className="btn btn-dark" onClick={this.Next}>{'>'}</button>...
+                        <button className="btn btn-dark" onClick={this.Prev}>{'<'}</button>&nbsp;&nbsp;&nbsp;
+                        <button className="btn btn-dark" onClick={this.Next}>{'>'}</button>&nbsp;&nbsp;&nbsp;&nbsp;
                         <button className="btn btn-dark" onClick={this.Today}>Today</button>
                     </div>
                     <div className="col">
-                        <label>View:
-                            <select className="form-control" value={this.state.team_name} onChange={this.handleChange}>
+                        <select className="form-control" value={this.state.team_name} onChange={this.handleChange}>
                                 <option value="weekly">Weekly</option>
                                 <option value="monthly">Monthly</option>
-                            </select>
-                        </label>
+                        </select>
                     </div>
+                </div><br /><br />
+                <div className='empTable'>
+                    {this.state.monthly ? this.getMonthlyCalendar(): this.getWeeklyCalendar()}
                 </div>
-                {this.state.monthly ? this.getMonthlyCalendar(): this.getWeeklyCalendar()}
                 <div>
                     <div className='add-leave-btn'>
                       {this.renderButton()}

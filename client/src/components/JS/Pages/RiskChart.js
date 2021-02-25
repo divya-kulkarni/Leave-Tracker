@@ -106,20 +106,20 @@ export default class RiskChart extends React.Component{
     getWeeklyCalendar(){
         return(
         <table className="table table-bordered">
-            <thead className="thead-light">
-                <tr>
+            <thead className="sticky-header">
+                <tr className="thead-dark">
                     {['','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'].map((val,i)=>(<th key={i}>{val}</th>))}
                 </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th keys={'em_name'}>Team</th>
+                <tr className="thead-light">
+                    <th keys={'team_name'}>Team</th>
                     {this.state.week.map((day)=>{
-                        const style= isSameDay(day,this.state.curr)?{backgroundColor:"coral"} : {backgroundColor:""};
+                        const style= isSameDay(day,this.state.curr)?{backgroundColor:"#839b97"} : {backgroundColor:""};
                         return(
                         <th style={style}>{format(day,'d/LLL/yy')}</th>)
                     })}
                 </tr>
+            </thead>
+            <tbody>
                 {
                     this.state.data.map((val)=>{
                         //console.log(val.leaves)
@@ -145,20 +145,20 @@ export default class RiskChart extends React.Component{
     {
         return(
             <table className="table table-bordered">
-            <thead className="thead-light">
-                <tr>
-                    <td colSpan={getDaysInMonth(this.state.month[1][3])+1}>
+            <thead className="sticky-header">
+                <tr className="thead-dark">
+                    <th colSpan={getDaysInMonth(this.state.month[1][3])+1}>
                     <h4 className='text-center'>{this.state.monthname}/{format(this.state.month[1][3],'yyyy')}</h4>
-                    </td>
+                    </th>
                 </tr>
-                <tr>
+                <tr className="thead-light">
                     <th keys={'em_name'}>Team</th>
                     {this.state.month.map((week,i)=>(
                         week.map(day=>{
                             if(day < startOfMonth(this.state.month[1][3]) || day > lastDayOfMonth(this.state.month[1][3]))
                                 return null;
                             else{
-                                    const style= isSameDay(day,this.state.curr)?{backgroundColor:"coral"} : {backgroundColor:""};
+                                    const style= isSameDay(day,this.state.curr)?{backgroundColor:"#839b97"} : {backgroundColor:""};
                                     return(<th style={style}>{format(day,'dd')}</th>)
                                 }
                             })
@@ -207,20 +207,22 @@ export default class RiskChart extends React.Component{
                 <div className="row">
                 
                     <div className="col">
-                        <button className="btn btn-dark" onClick={this.Prev}>{'<'}</button>____
-                        <button className="btn btn-dark" onClick={this.Next}>{'>'}</button>.....
+                        <button className="btn btn-dark" onClick={this.Prev}>{'<'}</button>&nbsp;&nbsp;&nbsp;
+                        <button className="btn btn-dark" onClick={this.Next}>{'>'}</button>&nbsp;&nbsp;&nbsp;&nbsp;
                         <button className="btn btn-dark" onClick={this.Today}>Today</button>
                     </div>
                     <div className="col">
-                        <label>View:
+                        
                             <select className="form-control" value={this.state.team_name} onChange={this.handleChange}>
+                          
                                 <option value="weekly">Weekly</option>
                                 <option value="monthly">Monthly</option>
                             </select>
-                        </label>
                     </div>
+                </div><br /><br />
+                <div className="riskTable">
+                    {this.state.monthly ? this.getMonthlyCalendar(): this.getWeeklyCalendar()}
                 </div>
-                {this.state.monthly ? this.getMonthlyCalendar(): this.getWeeklyCalendar()}
             </div>
         );
     }

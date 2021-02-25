@@ -14,6 +14,9 @@ import { makeStyles } from '@material-ui/core/styles';
 
 function Navbar() {
   const classes = useStyles();
+  const [link,setLink] = useState('Dashboard')
+
+  
   return (
     <>
       <IconContext.Provider value={{ color: '#fff' }}>
@@ -32,7 +35,7 @@ function Navbar() {
           </div>
             {SidebarData.map((item, index) => {
               return (
-                <li key={index} className={item.cName}>
+                <li key={index} className={item.cName} id={item.title == link ? "active": ""} onClick={()=>setLink(item.title)}>
                   <Link to={item.path}>
                     {item.icon}
                     <span>{item.title}</span>
