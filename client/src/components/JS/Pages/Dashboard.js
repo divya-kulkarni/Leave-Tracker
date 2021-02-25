@@ -11,12 +11,11 @@ export default class Dashboard extends React.Component{
         const week = genWeek()();
         const month = genMonth()();
         const monthname = format(new Date,'MMMM')
-        this.state = {curr: new Date(),week:week,data:[],monthly:false,month:month,monthname:monthname,refresh:false};
+        this.state = {curr: new Date(),week:week,data:[],monthly:false,month:month,monthname:monthname};
         this.Prev =this.Prev.bind(this);
         this.Next =this.Next.bind(this);
         this.Today = this.Today.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.refresh = this.refresh.bind(this);
     }
 
     handleChange(event){
@@ -29,7 +28,6 @@ export default class Dashboard extends React.Component{
     }
     refresh(){
         window.location.reload();
-        this.setState({refresh:!this.state.refresh});
     }
 
     Today(){
@@ -92,21 +90,27 @@ export default class Dashboard extends React.Component{
     getWeeklyCalendar(){
         return(
         <table className="table table-bordered">
-            <thead className="sticky-header">
-                <tr className="thead-dark"><th colSpan={2}><h5>{this.state.monthname}/{format(this.state.month[1][3],'yyyy')}</h5></th>
-                    {['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'].map((val,i)=>(<th key={i}>{val}</th>))}
+            <thead>
+                <tr className="thead-dark ">
+                    <th colSpan={2} >
+                        <h5 className="month-name">
+                            {this.state.monthname}/{format(this.state.month[1][3],'yyyy')}
+                        </h5>
+                    </th>
+                    {['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'].map((val,i)=>(<th key={i} >{val}</th>))}
                 </tr>
                 <tr className="thead-light">
-                    <th keys={'em_name'}>Employee Name</th>
-                    <th keys={'count'}>Total Leave</th>
+                    <th keys={'em_name'} className="sticky-header">Employee Name</th>
+                    <th keys={'count'} className="sticky-header">Total Leave</th>
                     {this.state.week.map((day)=>{
                         const style= isSameDay(day,this.state.curr)?{backgroundColor:"#839b97"} : {backgroundColor:""};
                         return(
-                        <th style={style}>{format(day,'dd')}</th>)
+                        <th style={style} className="sticky-header">{format(day,'dd')}</th>)
                     })}
                 </tr>
             </thead>
-            <tbody>
+            {this.state.data.length > 0?(
+                <tbody>
                 {
                     this.state.data.map((val,i)=>{
                         const style = i%2==0?{backgroundColor: "coral"} : {backgroundColor: "#ffdacc"};
@@ -126,7 +130,8 @@ export default class Dashboard extends React.Component{
                         );
                     })
                 }
-            </tbody>
+                </tbody>
+            ):null}
         </table>)
     }
 
@@ -134,26 +139,26 @@ export default class Dashboard extends React.Component{
     {
         return(
             <table className="table table-bordered">
-            <thead className="sticky-header">
+            <thead >
                 <tr className="thead-dark">
-                    <th colSpan={getDaysInMonth(this.state.month[1][3])+1}>
-                        <h4 className='text-center'>{this.state.monthname}/{format(this.state.month[1][3],'yyyy')}</h4>
+                    <th colSpan={getDaysInMonth(this.state.month[1][3])+1} >
+                        <h5 className='text-center month-name'>{this.state.monthname}/{format(this.state.month[1][3],'yyyy')}</h5>
                     </th>
                 </tr>
                 <tr className="thead-light">
-                    <th keys={'em_name'}>Employee</th>
+                    <th keys={'em_name'} className="sticky-header">Employee</th>
                     {this.state.month.map((week,i)=>(
                         week.map(day=>{
                             if(day < startOfMonth(this.state.month[1][3]) || day > lastDayOfMonth(this.state.month[1][3]))
                                 return null;
                             else
                                 { const style= isSameDay(day,this.state.curr)?{backgroundColor:"#839b97"} : {backgroundColor:""};
-                                  return(<th style={style}>{format(day,'dd')}</th>)}
+                                  return(<th style={style} className="sticky-header">{format(day,'dd')}</th>)}
                             })
                     ))}
                 </tr>
             </thead>
-            <tbody>
+            {this.state.data.length>0 ? (<tbody>
                 {
                    this.state.data.map((emp,i)=>{
                         const style = i%2==0?{backgroundColor: "coral"} : {backgroundColor: "#ffdacc"};
@@ -179,11 +184,10 @@ export default class Dashboard extends React.Component{
                                 })
                                 }
                             </tr>
-                        )
-                       
+                        )   
                    })
                 }
-            </tbody>
+            </tbody>):null}
         </table>
         )
     }
@@ -214,11 +218,8 @@ export default class Dashboard extends React.Component{
                 <div className='empTable'>
                     {this.state.monthly ? this.getMonthlyCalendar(): this.getWeeklyCalendar()}
                 </div>
-                <div>
-                    <div className='add-leave-btn'>
-                      {this.renderButton()}
-                      
-                    </div>
+                <div className='add-leave-btn'>
+                    {this.renderButton()}
                 </div>
             </div>
         );

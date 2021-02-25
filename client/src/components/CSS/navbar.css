@@ -123,14 +123,18 @@ Avatar{
 
 .riskTable{
   overflow-y: auto;
-  height: 70vh;
+  height: 60vh;
 }
 .empTable{
   overflow-y: auto;
-  height: 70vh;
+  height: 60vh;
 }
 
 .sticky-header{
-  top: 0;
+  top: -2px;
   position:sticky;
+}
+.month-name{
+  padding:0;
+  margin:0;
 }

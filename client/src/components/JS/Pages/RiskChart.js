@@ -106,23 +106,28 @@ export default class RiskChart extends React.Component{
     getWeeklyCalendar(){
         return(
         <table className="table table-bordered">
-            <thead className="sticky-header">
+            <thead >
                 <tr className="thead-dark">
-                    {['','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'].map((val,i)=>(<th key={i}>{val}</th>))}
+                    <th >
+                        <h5 className="month-name">
+                            {this.state.monthname}/{format(this.state.month[1][3],'yyyy')}
+                        </h5>
+                    </th>
+                    {['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'].map((val,i)=>(<th key={i}>{val}</th>))}
                 </tr>
                 <tr className="thead-light">
-                    <th keys={'team_name'}>Team</th>
+                    <th keys={'team_name'} className="sticky-header" >Team</th>
                     {this.state.week.map((day)=>{
                         const style= isSameDay(day,this.state.curr)?{backgroundColor:"#839b97"} : {backgroundColor:""};
                         return(
-                        <th style={style}>{format(day,'d/LLL/yy')}</th>)
+                        <th style={style} className="sticky-header">{format(day,'d/LLL/yy')}</th>)
                     })}
                 </tr>
             </thead>
-            <tbody>
+            {this.state.data.length > 0 ?(
+                <tbody>
                 {
                     this.state.data.map((val)=>{
-                        //console.log(val.leaves)
                         return(
                             <tr key={val.team_id}>
                                 <td>{val.name}</td>
@@ -138,34 +143,36 @@ export default class RiskChart extends React.Component{
                         );
                     })
                 }
-            </tbody>
+                </tbody>
+            ):null}
         </table>)
     }
     getMonthlyCalendar()
     {
         return(
             <table className="table table-bordered">
-            <thead className="sticky-header">
+            <thead>
                 <tr className="thead-dark">
-                    <th colSpan={getDaysInMonth(this.state.month[1][3])+1}>
-                    <h4 className='text-center'>{this.state.monthname}/{format(this.state.month[1][3],'yyyy')}</h4>
+                    <th colSpan={getDaysInMonth(this.state.month[1][3])+1} >
+                    <h5 className='text-center month-name'>{this.state.monthname}/{format(this.state.month[1][3],'yyyy')}</h5>
                     </th>
                 </tr>
                 <tr className="thead-light">
-                    <th keys={'em_name'}>Team</th>
+                    <th keys={'team_name'} className="sticky-header">Team</th>
                     {this.state.month.map((week,i)=>(
                         week.map(day=>{
                             if(day < startOfMonth(this.state.month[1][3]) || day > lastDayOfMonth(this.state.month[1][3]))
                                 return null;
                             else{
                                     const style= isSameDay(day,this.state.curr)?{backgroundColor:"#839b97"} : {backgroundColor:""};
-                                    return(<th style={style}>{format(day,'dd')}</th>)
+                                    return(<th style={style} className="sticky-header">{format(day,'dd')}</th>)
                                 }
                             })
                         ))}
                 </tr>
             </thead>
-            <tbody>
+            {this.state.data.length > 0 ?(
+                <tbody>
                 {
                    this.state.data.map(team=>{
                         return(
@@ -196,7 +203,8 @@ export default class RiskChart extends React.Component{
                        
                    })
                 }
-            </tbody>
+                </tbody>
+            ):null}
         </table>
         )
     }
