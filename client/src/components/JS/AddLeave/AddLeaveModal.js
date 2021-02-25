@@ -87,7 +87,7 @@ class AddLeaveModal extends React.Component {
                   minDate={new Date()} tileDisabled={this.tileToDisable} 
                     format='d/MM/y'
                   />
-                  <br />
+                  <br /><br />
                   <Form.Label>End Date</Form.Label>
                   <br />
                   <DatePicker name='enddate' className="end-date" 
@@ -95,6 +95,7 @@ class AddLeaveModal extends React.Component {
                   minDate={new Date(this.state.startDate)} tileDisabled={this.tileToDisable} 
                   format='d/MM/y'
                   />
+                  <br /><br />
                 </div>
               </Form.Group>
               <Button className="btn btn-default submitBtn" type="submit" id="addLeaveBtn">
