@@ -12,8 +12,10 @@
 }
 
 .floating-btn:focus{
-  background-color:coral;
+  background-color:black !important;
   color:#fff;
+  box-shadow:0 0 0 .2rem black !important;
+  border: black !important;
 }
 
 .floating-btn:hover{
@@ -34,11 +36,15 @@
   border: black;
 }
 
-#addLeaveForm{
-  margin: 0 auto;
+.leave-form{
+  align-content: center;
+}
+
+.datePicker{
+  margin: auto;
+  width: 37%;
 }
 
 .LeaveModal{
-  
   top: 80px;
 }
