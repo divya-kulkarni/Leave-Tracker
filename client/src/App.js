@@ -17,7 +17,7 @@ function App() {
               return <Redirect  push to='/home' />;}
             }}>
           </Route>
-          <ProtectedRoute path='/home' isAuth={emp_id} setEmpid={setEmpid} emp_name={emp_name}/>
+          <ProtectedRoute path='/home' isAuth={emp_id} setEmpid={setEmpid} emp_name={emp_name} />
         </Switch>
       </Router> 
     </>

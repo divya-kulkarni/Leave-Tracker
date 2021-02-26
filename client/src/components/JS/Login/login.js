@@ -33,9 +33,10 @@ class Login extends React.Component {
         });
         const data=await result.json();
         if(data.success){
+          
+          this.props.setEmpname(data.name);
           this.props.setEmpid(this.state.employee_id);
           localStorage.setItem('emp_id', this.state.employee_id);
-          this.props.setEmpname(data.name);
           localStorage.setItem('emp_name', data.name);
           this.setState({redirect : true});
         }

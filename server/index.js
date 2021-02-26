@@ -53,7 +53,7 @@ app.post('/login',(req,res)=>{
 app.post('/addLeave',(req,res) =>{
     var start_dt= req.body.startDate,
     end_dt=req.body.endDate,
-    emp_id=req.body.employee_id,
+    emp_id=parseInt(req.body.employee_id),
     day_count;
     
     if(start_dt == end_dt || !end_dt){

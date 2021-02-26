@@ -31,10 +31,10 @@ const useStyles = theme => ({
 
 class Navbar extends React.Component{
   constructor(props){
-    super(props)
-    this.state={link:'Dashboard'};
+    super(props);
+    const pathname = window.location.pathname;
+    this.state={path:pathname};
     
-  //const [link,setLink] = useState('Dashboard')
   }
   
   render(){
@@ -59,7 +59,7 @@ class Navbar extends React.Component{
             </div>
               {SidebarData.map((item, index) => {
                 return (
-                  <li key={index} className={item.cName} id={item.title == this.state.link ? "active": ""} onClick={()=>this.setState({link:item.title})}>
+                  <li key={index} className={item.cName} id={item.path == this.state.path? "active": ""} onClick={()=>this.setState({path:item.path})}>
                     <Link to={item.path}>
                       {item.icon}
                       <span>{item.title}</span>

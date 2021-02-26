@@ -10,25 +10,16 @@ class AddLeaveModal extends React.Component {
     this.state = {
       show: false,
       startDate: '',
-      employee_id: null,
       endDate: '',
       endDateToggle: true
     }
 
     this.handleModal = this.handleModal.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
     this.tileToDisable = this.tileToDisable.bind(this);
 
   }
 
-  handleChange(event) {
-    const value = event.target.value;
-    const name = event.target.name;
-    this.setState({
-      [name]: value
-    });
-  }
 
   handleModal() {
     this.setState({
@@ -38,18 +29,19 @@ class AddLeaveModal extends React.Component {
 
   async handleSubmit(event) {
     event.preventDefault();
-    console.log(this.state);
-    console.log('employee id: ' + this.state.employee_id + '  start date:' + this.state.startDate + ' end date:' + this.state.endDate);
+    const body ={
+      startDate:this.state.startDate,
+      endDate:this.state.endDate,
+      employee_id:this.props.emp_id};
+
     const result = await fetch("http://localhost:5000/addLeave", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(this.state)
+      body: JSON.stringify(body)
     });
     const data = await result.json();
-    console.log(data);
     this.setState({ show: false });
     this.props.refresh();
-    //console.log(this.props);
   }
 
   tileToDisable(date) {
@@ -76,10 +68,6 @@ class AddLeaveModal extends React.Component {
           <Modal.Body>
             <Form className='leave-form' onSubmit={this.handleSubmit}>
               <Form.Group controlId="addLeaveForm">
-                {/* <Form.Label>Employee ID</Form.Label> */}
-                <Form.Control name="employee_id" type="text" 
-                onChange={this.handleChange} placeholder='Employee ID' />
-                <br />
                 <div className='datePicker'>
                   <Form.Label>Start Date</Form.Label>
                   <br />

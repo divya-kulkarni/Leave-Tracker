@@ -25,7 +25,7 @@ class ResourceTeam extends React.Component {
 
     handleChange(event) {
         const value = event.target.value;
-        // console.log(this.data.filter(team=>team.team_name == value)[0].emp)
+
         this.setState({
             team_name: value,
             threshold: this.data.filter(team => team.team_name == value)[0].threshold,
@@ -38,9 +38,7 @@ class ResourceTeam extends React.Component {
             then((response) => response.json()).
             then((result) => {
                 this.data = result;
-                this.teamNames = result.map(ele => ele.team_name);
-                const value = this.teamNames[0]
-                // console.log(this.data);
+                this.teamNames = result.map(ele => ele.team_name);           
                 this.setState({
                     team_name: "",
                     threshold: '',
@@ -52,9 +50,9 @@ class ResourceTeam extends React.Component {
     render() {
         return (
             <>
-                <div className='resource-list'>
+                <div className='resource-list form-inline'>
                     <label><b>Team Names&nbsp;&nbsp;&nbsp;</b></label>
-                    <select value={this.state.team_name} onChange={this.handleChange}>
+                    <select style={{ padding: 0, margin: 0 }} className="form-control" onChange={this.handleChange}>
                         <option value="" disabled> Select</option>
                         {this.teamNames.map((item, index) => {
                             return (

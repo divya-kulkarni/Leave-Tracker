@@ -7,7 +7,7 @@ function ProtectedRoute({isAuth:isAuth,...Rest}){
         <Route 
             render={()=>{
                 if(isAuth!=null){
-                    return <Home setEmpid={Rest.setEmpid} emp_name={Rest.emp_name}/>;
+                    return <Home setEmpid={Rest.setEmpid} emp_name={Rest.emp_name} emp_id={isAuth}/>;
                 }
                 else{
                     return <Redirect to='/'/>;

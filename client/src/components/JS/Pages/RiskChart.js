@@ -208,6 +208,35 @@ export default class RiskChart extends React.Component {
         )
     }
 
+    getLegend(){
+        return(
+            <div className="col" style={{ right: '0' }}>
+                <table className='legend-table'>
+                    <tr>
+                        <td style={{ height: '50%', width: '15%', backgroundColor: 'crimson' }}></td>
+                        &nbsp;&nbsp;&nbsp;
+                        <td>High Risk</td>
+
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                        <td style={{ height: '50%', width: '15%', backgroundColor: '#99bbff' }}></td>
+                        &nbsp;&nbsp;&nbsp;
+                        <td>Low Risk</td>
+
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                        <td style={{ height: '50%', width: '15%', backgroundColor: '#839b97' }}></td>
+                        <td></td><td> </td>&nbsp;&nbsp;
+                        <td>Today</td>
+                    </tr>
+                    <tr>
+
+                    </tr>
+                </table>
+            </div>
+        )
+    }
+
     render() {
         return (
             <div className="RiskChart">
@@ -219,7 +248,7 @@ export default class RiskChart extends React.Component {
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <button className="btn btn-dark" onClick={this.Today}>Today</button>
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <select className="form-control" value={this.state.team_name}
+                        <select className="form-control" 
                             onChange={this.handleChange}
                             style={{ padding: 0, margin: 0 }}
                         >
@@ -227,30 +256,7 @@ export default class RiskChart extends React.Component {
                             <option value="monthly">Monthly</option>
                         </select>
                     </div>
-                    <div className="col" style={{ right: '0' }}>
-                        <table className='legend-table'>
-                            <tr>
-                                <td style={{ height: '50%', width: '15%', backgroundColor: 'crimson' }}></td>&nbsp;
-                                &nbsp;&nbsp;
-                                <td>High Risk</td>
-
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-                                <td style={{ height: '50%', width: '15%', backgroundColor: '#99bbff' }}></td>&nbsp;
-                                &nbsp;&nbsp;
-                                <td>Low Risk</td>
-
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-                                <td style={{ height: '50%', width: '15%', backgroundColor: '#839b97' }}></td>
-                                <td></td><td> </td>&nbsp;&nbsp;
-                                <td>Today</td>
-                            </tr>
-                            <tr>
-
-                            </tr>
-                        </table>
-                    </div>
+                {this.getLegend()}    
                 </div><br />
                 <div className="riskTable">
                     {this.state.monthly ? this.getMonthlyCalendar() : this.getWeeklyCalendar()}

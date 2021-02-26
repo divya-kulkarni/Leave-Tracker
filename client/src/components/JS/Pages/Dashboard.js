@@ -195,9 +195,35 @@ export default class Dashboard extends React.Component {
 
     renderButton() {
         if (this.state.data.length != 0)
-            return (<AddLeaveModal refresh={this.refresh} leaves={this.state.data.filter(emp => emp.employee_id == 103)[0].leaves} />)
+            return (<AddLeaveModal refresh={this.refresh} leaves={this.state.data.filter(emp => emp.employee_id == this.props.emp_id)[0].leaves} emp_id={this.props.emp_id}/>)
         else
             return (<AddLeaveModal />)
+    }
+
+    getLegend(){
+        return(
+            <div className="col" style={{right:'0'}}>
+                <table className='legend-table'>
+                    <tr>
+                        <td style={{height:'50%', width:'15%', backgroundColor:'coral'}}></td>&nbsp;
+                        <td style={{height:'50%', width:'15%', backgroundColor:'#ffdacc'}}></td>
+                        &nbsp;&nbsp;
+                        <td>Employee On Leave</td>
+
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                        <td style={{height:'50%', width:'15%', backgroundColor:'#839b97'}}></td>
+                        <td></td>
+                        <td> </td>
+                        &nbsp;&nbsp;
+                        <td>Today</td>
+                    </tr>
+                    <tr>
+                                
+                    </tr>
+                </table>
+            </div>
+        );
     }
 
     render() {
@@ -219,25 +245,7 @@ export default class Dashboard extends React.Component {
                             <option value="monthly">Monthly</option>
                         </select>
                     </div>
-                    <div className="col" style={{right:'0'}}>
-                        <table className='legend-table'>
-                            <tr>
-                                <td style={{height:'50%', width:'15%', backgroundColor:'coral'}}></td>&nbsp;
-                                <td style={{height:'50%', width:'15%', backgroundColor:'#ffdacc'}}></td>
-                                &nbsp;&nbsp;
-                                <td>Employee On Leave</td>
-
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-                                <td style={{height:'50%', width:'15%', backgroundColor:'#839b97'}}></td>
-                                <td></td><td> </td>&nbsp;&nbsp;
-                                <td>Today</td>
-                            </tr>
-                            <tr>
-                                
-                            </tr>
-                        </table>
-                    </div>
+                {this.getLegend()}    
                 </div><br />
                 <div className='empTable'>
                     {this.state.monthly ? this.getMonthlyCalendar() : this.getWeeklyCalendar()}
