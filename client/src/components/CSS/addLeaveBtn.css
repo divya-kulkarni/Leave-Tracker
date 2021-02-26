@@ -36,12 +36,18 @@
   border: black;
 }
 
+.LeaveModal{
+  top: 15%;
+}
+
 .leave-form{
   align-content: center;
   display: grid;
+  height: 45vh;
 }
 
 .datePicker{
+  overflow:visible !important;
   margin-left: 33%;
-  width: 80%;
+  width: 100%;
 }
