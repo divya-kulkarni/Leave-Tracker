@@ -33,7 +33,8 @@ app.post('/login',(req,res)=>{
                 if(result[0].password == pass)
                     res.json({
                         success : true,
-                        message : 'Login success'
+                        message : 'Login success',
+                        name : result[0].employee_name
                     });
                 else
                     res.json({

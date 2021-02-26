@@ -1,11 +1,14 @@
 import React from 'react';
 import '../../CSS/login.css';
+import {Redirect} from 'react-router-dom';
 
 class Login extends React.Component {
     constructor(props) {
       super(props);
       this.state = {employee_id: '',
-                    pass:''};
+                    pass:'',
+                    redirect:false
+                  };
   
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,12 +32,19 @@ class Login extends React.Component {
             body:JSON.stringify(this.state)
         });
         const data=await result.json();
-        console.log(data);
-        
-        alert(data.message);
+        if(data.success){
+          this.props.setEmpid(this.state.employee_id);
+          localStorage.setItem('emp_id', this.state.employee_id);
+          this.props.setEmpname(data.name);
+          localStorage.setItem('emp_name', data.name);
+          this.setState({redirect : true});
+        }
+        else
+          alert(data.message);
     }
   
     render() {
+      if(this.state.redirect==false){
       return (
         <div className="login-bg">
           <form className="login-form" onSubmit={this.handleSubmit}>
@@ -48,6 +58,12 @@ class Login extends React.Component {
           </form>
         </div>
       );
+    }
+    else{
+      return(
+        <Redirect push to='/home' />
+      )
+    }
     }
   }
 

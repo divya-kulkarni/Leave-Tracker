@@ -33,7 +33,7 @@ class Navbar extends React.Component{
   constructor(props){
     super(props)
     this.state={link:'Dashboard'};
-  
+    
   //const [link,setLink] = useState('Dashboard')
   }
   
@@ -44,16 +44,18 @@ class Navbar extends React.Component{
         <IconContext.Provider value={{ color: '#fff' }}>
           <div className='navbar'>
             <Grid container justify="flex-end" style={{alignItems: 'center'}}>
-              <button className = "logout-btn" name="logout" onClick={() => { alert('Logged Out!') }}><span>Logout</span></button>
+              <button className = "logout-btn" name="logout" onClick={() => {localStorage.clear(); this.props.setEmpid(null);}}>
+                <span>Logout</span>
+              </button>
             </Grid>
           </div>
           <div className='nav-menu'>
             <ul className='nav-menu-items active'>
             <div className='avatar-item'>
               <div className={classes.root} >
-                <Avatar alt="Jordan" src="./components/images/jordan-avatar.jpg" className={classes.large}/>
+                <Avatar alt={this.props.emp_name.toUpperCase()} src="./components/images/jordan-avatar.jpg" className={classes.large}/>
               </div>
-              <h4 className='avatar'>Jordan</h4>
+              <h4 className='avatar'>{this.props.emp_name.toUpperCase()}</h4>
             </div>
               {SidebarData.map((item, index) => {
                 return (
