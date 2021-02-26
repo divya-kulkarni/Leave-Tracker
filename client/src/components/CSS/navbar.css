@@ -115,7 +115,7 @@ Avatar{
 }
 
 .dashboard ,.RiskChart{
-  margin-top:8vh;
+  margin-top:5vh;
   position: relative;
   right: 0;
   width: 80%;
@@ -138,4 +138,10 @@ Avatar{
 .month-name{
   padding:0;
   margin:0;
+}
+
+.sticky-name{
+  left: -2px;
+  position:sticky;
+  background-color: white;
 }

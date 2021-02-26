@@ -10,8 +10,8 @@ export const SidebarData = [
     cName: 'nav-text'
   },
   {
-    title: 'Resource Wise Chart',
-    path: '/resource-wise-chart',
+    title: 'Resources',
+    path: '/resources',
     icon: <MdIcons.MdPersonOutline />,
     cName: 'nav-text'
   },

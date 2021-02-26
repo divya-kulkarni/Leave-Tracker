@@ -11,7 +11,8 @@ class AddLeaveModal extends React.Component {
       show: false,
       startDate: '',
       employee_id: null,
-      endDate: ''
+      endDate: '',
+      endDateToggle: true
     }
 
     this.handleModal = this.handleModal.bind(this);
@@ -28,8 +29,6 @@ class AddLeaveModal extends React.Component {
       [name]: value
     });
   }
-
-
 
   handleModal() {
     this.setState({
@@ -65,7 +64,9 @@ class AddLeaveModal extends React.Component {
   render() {
     return (
       <div>
-        <Button className='floating-btn' onClick={() => { this.handleModal() }}>&#10010;</Button>
+        <Button className='floating-btn' onClick={() => { this.handleModal() }}>
+          &#10010;
+        </Button>
         <Modal className='LeaveModal' show={this.state.show} onHide={() => { this.handleModal() }}>
           <Modal.Header>
             Add Leave To Track Risk
@@ -83,7 +84,7 @@ class AddLeaveModal extends React.Component {
                   <Form.Label>Start Date</Form.Label>
                   <br />
                   <DatePicker name='startdate' className="start-date" 
-                  value={this.state.startDate} onChange={value => this.setState({ startDate: value })} 
+                  value={this.state.startDate} onChange={value => this.setState({ startDate: value, endDateToggle: false })} 
                   minDate={new Date()} tileDisabled={this.tileToDisable} 
                     format='d/MM/y'
                   />
@@ -92,8 +93,8 @@ class AddLeaveModal extends React.Component {
                   <br />
                   <DatePicker name='enddate' className="end-date" 
                   value={this.state.endDate} onChange={value => this.setState({ endDate: value })} 
-                  minDate={new Date(this.state.startDate)} tileDisabled={this.tileToDisable} 
-                  format='d/MM/y'
+                  minDate={addDays(new Date(this.state.startDate),1)} tileDisabled={this.tileToDisable} 
+                  format='d/MM/y' disabled={this.state.endDateToggle}
                   />
                   <br /><br />
                 </div>

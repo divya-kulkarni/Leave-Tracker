@@ -1,7 +1,7 @@
 .floating-btn {
   position:fixed;
-	width: 70px;
-	height: 70px;
+	width: 65px;
+	height: 65px;
 	bottom: 10%;
 	right:8%;
 	background-color:rgb(3, 5, 39);
@@ -42,10 +42,6 @@
 }
 
 .datePicker{
-  margin: auto;
-  width: 37%;
-}
-
-.LeaveModal{
-  top: 80px;
+  margin-left: 33%;
+  width: 80%;
 }
