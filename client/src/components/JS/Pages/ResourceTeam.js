@@ -14,28 +14,45 @@ class ResourceTeam extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            team_name: "",
+            team_name: '',
             threshold: '',
-            emplist: []
+            emplist: [],
+            sort:true
         };
         this.teamNames = [];
         this.handleChange = this.handleChange.bind(this);
+        this.handleSort = this.handleSort.bind(this);
 
+    }
+    handleSort(event)
+    {
+        const value = event.target.value;
+        const sort = value == 'asc' ? true : false;
+        var empList = this.data.filter(team => team.team_name == this.state.team_name)[0].emp;
+        if(sort){
+            empList = empList.sort((a, b) => a.name.localeCompare(b.name));
+        }
+        else{
+            empList = empList.sort((a, b) => b.name.localeCompare(a.name));
+        }
+        this.setState({emplist: empList,sort:sort});
     }
 
     handleChange(event) {
         const value = event.target.value;
-
+        var empList = this.data.filter(team => team.team_name == value)[0].emp;
+        if(this.state.sort){
+            empList = empList.sort((a, b) => a.name.localeCompare(b.name));
+        }
+        else{
+            empList = empList.sort((a, b) => b.name.localeCompare(a.name));
+        }
         this.setState({
             team_name: value,
             threshold: this.data.filter(team => team.team_name == value)[0].threshold,
-            emplist: this.data.filter(team => team.team_name == value)[0].emp,
+            emplist: empList,
         });
-        if (this.state.emplist) {
-            var emp = this.data.filter(team => team.team_name == value)[0].emp;
-            emp = emp.sort((a, b) => a.name.localeCompare(b.name));
-            console.log(emp);
-        }
+        
 
     }
     componentDidMount() {
@@ -45,7 +62,7 @@ class ResourceTeam extends React.Component {
                 this.data = result;
                 this.teamNames = result.map(ele => ele.team_name);
                 this.setState({
-                    team_name: "",
+                    team_name: '',
                     threshold: '',
                     emplist: []
                 });
@@ -82,8 +99,8 @@ class ResourceTeam extends React.Component {
                                     <div className='sorting form-inline col'
                                         style={{ margin: 0 }}>
                                         <label>Sort Name By:</label>
-                                        <select className="form-control" style={{ margin: 0 }}>
-                                            <option value="asc" selected>A-Z</option>
+                                        <select className="form-control" style={{ margin: 0 }} onClick={this.handleSort} defaultValue='asc'>
+                                            <option value="asc">A-Z</option>
                                             <option value="desc">Z-A</option>
                                         </select>
                                     </div>
