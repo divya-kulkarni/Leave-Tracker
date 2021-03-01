@@ -15,11 +15,12 @@ function App() {
             if(emp_id==null)
               return<Login setEmpid={setEmpid} setEmpname={setEmpname}/>;
             else{
-              return <Redirect  push to='/home' />;}
+              return <Redirect to='/home' />;}
             }}>
           </Route>
+          <Route path='/404' exact component={NotFoundPage} />
           <ProtectedRoute path='/home' isAuth={emp_id} setEmpid={setEmpid} emp_name={emp_name} />
-          <Route path='*' component={NotFoundPage} />
+          <Redirect to='/404' />
         </Switch>
       </Router> 
     </>

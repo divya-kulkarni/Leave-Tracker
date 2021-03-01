@@ -40,6 +40,9 @@ class Navbar extends React.Component {
     super(props);
     const pathname = window.location.pathname;
     this.state = { path: pathname };
+    var paths = SidebarData.map(dat=>dat.path);
+    if(!paths.includes(pathname))
+      window.location.href = '/404';
   }
 
   render() {
