@@ -1,5 +1,15 @@
 import {startOfDay,startOfMonth,startOfWeek,endOfWeek,endOfMonth,addDays} from 'date-fns';
 
+/**
+ * Helper file to used to generate week(array of dates), and month(2D array of dates) 
+ * 
+ * 
+ *  genWeek(start) :a generator function which returns a function that gives array of dates of the week from which 'start' is from.
+ * 
+ * genMonth(start) : a generator function that returns a function which returns an array of array containing all dates of the month of 'start'
+ * 
+ */
+
 export function genWeek(start = new Date()){
     let date = startOfWeek(startOfDay(start),{weekStartsOn:1});
 
