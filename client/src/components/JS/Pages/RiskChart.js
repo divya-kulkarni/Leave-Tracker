@@ -157,7 +157,7 @@ export default class RiskChart extends React.Component {
                         </th>
                     </tr>
                     <tr className="thead-light">
-                        <th keys={'team_name'} className="sticky-header">Team</th>
+                        <th keys={'team_name'} className="sticky-header sticky-name">Team</th>
                         {this.state.month.map((week, i) => (
                             week.map(day => {
                                 if (day < startOfMonth(this.state.month[1][3]) || day > lastDayOfMonth(this.state.month[1][3]))

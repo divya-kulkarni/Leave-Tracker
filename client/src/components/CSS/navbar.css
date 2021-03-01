@@ -137,6 +137,7 @@ Avatar{
 .sticky-header{
   top: -2px;
   position:sticky;
+  z-index: 1;
 }
 .month-name{
   padding:0;
@@ -147,4 +148,5 @@ Avatar{
   left: -2px;
   position:sticky;
   background-color: white;
+  z-index: 2;
 }

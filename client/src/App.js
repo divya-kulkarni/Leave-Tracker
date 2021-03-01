@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import Login from './components/JS/Login/login';
 import ProtectedRoute from './components/ProtectedRoute';
+import NotFoundPage from './components/JS/NotFoundPage';
 
 function App() {
   const [emp_id, setEmpid]=useState(localStorage.getItem('emp_id'));
@@ -18,6 +19,7 @@ function App() {
             }}>
           </Route>
           <ProtectedRoute path='/home' isAuth={emp_id} setEmpid={setEmpid} emp_name={emp_name} />
+          <Route path='*' component={NotFoundPage} />
         </Switch>
       </Router> 
     </>

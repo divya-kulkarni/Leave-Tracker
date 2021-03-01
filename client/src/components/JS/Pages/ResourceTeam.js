@@ -30,15 +30,20 @@ class ResourceTeam extends React.Component {
             team_name: value,
             threshold: this.data.filter(team => team.team_name == value)[0].threshold,
             emplist: this.data.filter(team => team.team_name == value)[0].emp,
-
         });
+        if (this.state.emplist) {
+            var emp = this.data.filter(team => team.team_name == value)[0].emp;
+            emp = emp.sort((a, b) => a.name.localeCompare(b.name));
+            console.log(emp);
+        }
+
     }
     componentDidMount() {
         fetch('http://localhost:5000/team').
             then((response) => response.json()).
             then((result) => {
                 this.data = result;
-                this.teamNames = result.map(ele => ele.team_name);           
+                this.teamNames = result.map(ele => ele.team_name);
                 this.setState({
                     team_name: "",
                     threshold: '',
@@ -47,12 +52,14 @@ class ResourceTeam extends React.Component {
             });
     }
 
+
+
     render() {
         return (
             <>
                 <div className='resource-list form-inline'>
                     <label><b>Team Names&nbsp;&nbsp;&nbsp;</b></label>
-                    <select style={{ padding: 0, margin: 0 }} className="form-control" 
+                    <select style={{ padding: 0, margin: 0 }} className="form-control"
                         onChange={this.handleChange}>
                         <option value="" disabled selected> Select</option>
                         {this.teamNames.map((item, index) => {
@@ -63,36 +70,47 @@ class ResourceTeam extends React.Component {
                     </select>
                 </div>
                 <div>
-                {this.state.team_name.length > 0 ? (
-                    <div className='parent-resource-table'> 
-                        <div className='resource-table-details'>
-                        <h6><b>TEAM DETAILS</b></h6>
-                            <b>Team Name : {this.state.team_name}</b>
-                            <br></br>
-                            <b>Team Threshold : {this.state.threshold}</b>
-                            <br></br>
+                    {this.state.team_name.length > 0 ? (
+                        <div className='parent-resource-table'>
+                            <div className='resource-table-details'>
+                                <h6><b>TEAM DETAILS</b></h6>
+                                <b>Team Name : {this.state.team_name}</b>
+                                <br></br>
+                                <div className='form-inline'>
+                                    <b>Team Threshold : {this.state.threshold}</b>
+                                    <br></br>
+                                    <div className='sorting form-inline col'
+                                        style={{ margin: 0 }}>
+                                        <label>Sort Name By:</label>
+                                        <select className="form-control" style={{ margin: 0 }}>
+                                            <option value="asc" selected>A-Z</option>
+                                            <option value="desc">Z-A</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='child-resource-table'>
+                                <table className='table table-bordered'>
+                                    <thead className='thead-dark'>
+                                        <tr>
+                                            <th className='resource-table-header'>EMPLOYEE ID</th>
+                                            <th className='resource-table-header'>EMPLOYEE NAME
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className='resource-table-body'>
+                                        {
+                                            this.state.emplist.map((emp) => {
+                                                return (<tr key={emp.id}><td>{emp.id}</td><td>{emp.name}</td></tr>)
+                                            })
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <div className='child-resource-table'>
-                            <table className='table table-bordered'> 
-                            <thead className='thead-dark'> 
-                                <tr>
-                                    <th className='resource-table-header'>EMPLOYEE ID</th>
-                                    <th className='resource-table-header'>EMPLOYEE NAME</th>
-                                </tr>
-                            </thead>
-                            <tbody className='resource-table-body'>
-                                {
-                                    this.state.emplist.map((emp) => {
-                                    return (<tr key={emp.id}><td>{emp.id}</td><td>{emp.name}</td></tr>)
-                                    })
-                                }
-                            </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    ) : null }
+                    ) : null}
                 </div>
-                    
+
             </>
         );
     }

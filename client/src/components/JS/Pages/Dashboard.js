@@ -145,7 +145,7 @@ export default class Dashboard extends React.Component {
                         </th>
                     </tr>
                     <tr className="thead-light">
-                        <th keys={'em_name'} className="sticky-header">Employee</th>
+                        <th keys={'em_name'} className="sticky-name sticky-header">Employee</th>
                         {this.state.month.map((week, i) => (
                             week.map(day => {
                                 if (day < startOfMonth(this.state.month[1][3]) || day > lastDayOfMonth(this.state.month[1][3]))
