@@ -4,6 +4,18 @@ import { Button, Form, Modal } from 'react-bootstrap';
 import DatePicker from 'react-date-picker';
 import { isWithinInterval, addDays } from 'date-fns';
 
+/**
+ * Class - AddLeaveModal
+ * Parameters - state.show (toggles modal view), state.startDate (starting date from date picker),
+ *              state.endDate (ending date from date picker), 
+ *              state.endDateToggle (enables or disables second date picker)
+ * Functions - handleModal() : Toggles modal view depending on value of state.show
+ *             handleSubmit() : Gets form values and sets them to props variables
+ *             tileToDisable() : Disables previous dates in both date pickers
+ * Use - creates floating button that toggles modal. User can add new leave
+ *        using the modal form.
+ */
+
 class AddLeaveModal extends React.Component {
   constructor(props) {
     super(props);
@@ -17,7 +29,6 @@ class AddLeaveModal extends React.Component {
     this.handleModal = this.handleModal.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.tileToDisable = this.tileToDisable.bind(this);
-
   }
 
 
@@ -29,10 +40,11 @@ class AddLeaveModal extends React.Component {
 
   async handleSubmit(event) {
     event.preventDefault();
-    const body ={
-      startDate:this.state.startDate,
-      endDate:this.state.endDate,
-      employee_id:this.props.emp_id};
+    const body = {
+      startDate: this.state.startDate,
+      endDate: this.state.endDate,
+      employee_id: this.props.emp_id
+    };
 
     const result = await fetch("http://localhost:5000/addLeave", {
       method: "POST",
@@ -47,7 +59,10 @@ class AddLeaveModal extends React.Component {
   tileToDisable(date) {
     var flag = false;
     this.props.leaves.forEach(ele => {
-      if (isWithinInterval(date.date, { start: new Date(ele.start_date), end: addDays(new Date(ele.start_date), ele.count - 1) }))
+      if (isWithinInterval(date.date, {
+        start: new Date(ele.start_date),
+        end: addDays(new Date(ele.start_date), ele.count - 1)
+      }))
         flag = true;
     });
     return flag;
@@ -59,11 +74,12 @@ class AddLeaveModal extends React.Component {
         <Button className='floating-btn' onClick={() => { this.handleModal() }}>
           &#10010;
         </Button>
-        <Modal className='LeaveModal' show={this.state.show} onHide={() => { this.handleModal() }}>
+        <Modal className='LeaveModal'
+          show={this.state.show} onHide={() => { this.handleModal() }}>
           <Modal.Header>
             Add Leave To Track Risk
-            <Button className="btn btn-default add-leave" 
-            onClick={() => { this.handleModal() }}>&times;</Button>
+            <Button className="btn btn-default add-leave"
+              onClick={() => { this.handleModal() }}>&times;</Button>
           </Modal.Header>
           <Modal.Body>
             <Form className='leave-form' onSubmit={this.handleSubmit}>
@@ -71,23 +87,29 @@ class AddLeaveModal extends React.Component {
                 <div className='datePicker'>
                   <Form.Label>Start Date</Form.Label>
                   <br />
-                  <DatePicker name='startdate' className="start-date" 
-                  value={this.state.startDate} onChange={value => this.setState({ startDate: value, endDateToggle: false })} 
-                  minDate={new Date()} tileDisabled={this.tileToDisable} 
+                  <DatePicker name='startdate' className="start-date"
+                    value={this.state.startDate}
+                    onChange={value => this.setState({ startDate: value, endDateToggle: false })}
+                    minDate={new Date()} 
+                    tileDisabled={this.tileToDisable}
                     format='d/MM/y'
                   />
                   <br /><br />
                   <Form.Label>End Date</Form.Label>
                   <br />
-                  <DatePicker name='enddate' className="end-date" 
-                  value={this.state.endDate} onChange={value => this.setState({ endDate: value })} 
-                  minDate={addDays(new Date(this.state.startDate),1)} tileDisabled={this.tileToDisable} 
-                  format='d/MM/y' disabled={this.state.endDateToggle}
+                  <DatePicker name='enddate' className="end-date"
+                    value={this.state.endDate}
+                    onChange={value => this.setState({ endDate: value })}
+                    minDate={addDays(new Date(this.state.startDate), 1)}
+                    tileDisabled={this.tileToDisable}
+                    format='d/MM/y' 
+                    disabled={this.state.endDateToggle}
                   />
                   <br /><br />
                 </div>
               </Form.Group>
-              <Button className="btn btn-default submitBtn" type="submit" id="addLeaveBtn">
+              <Button className="btn btn-default submitBtn"
+                type="submit" id="addLeaveBtn">
                 Add
               </Button>
             </Form>
@@ -97,6 +119,5 @@ class AddLeaveModal extends React.Component {
     );
   }
 }
-
 
 export default AddLeaveModal

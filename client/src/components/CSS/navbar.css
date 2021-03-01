@@ -13,6 +13,7 @@
 }
 
 .nav-menu {
+  /* background-color: #060b26; */
   background-color: #060b26;
   width: 30vh;
   min-height: 92vh;
@@ -56,7 +57,7 @@ span {
 }
 
 #active{
-  background-color: #3e5a55;
+  background-color: #4f7f7b;
 }
 
 .avatar-item{
@@ -125,10 +126,12 @@ Avatar{
 .riskTable{
   overflow-y: auto;
   height: 60vh;
+  width: 80vw;
 }
 .empTable{
   overflow-y: auto;
   height: 60vh;
+  width: 80vw;
 }
 
 .sticky-header{

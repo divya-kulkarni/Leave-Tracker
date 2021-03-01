@@ -6,6 +6,14 @@ import Dashboard from './JS/Pages/Dashboard';
 import RiskChart from './JS/Pages/RiskChart';
 import ResourceTeam from './JS/Pages/ResourceTeam';
 
+/** 
+ * Function name - Home()
+ * Parameters - props.setEmpid (sets ID of current logged in user),
+ *              props.emp_name (name of current logged in user) 
+ * Use - First page displayed after successful login. Routes to other navigation
+ *        tabs.
+*/
+
 function Home(props) {
   return (
     <>

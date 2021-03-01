@@ -103,7 +103,7 @@ export default class Dashboard extends React.Component {
                         <th keys={'em_name'} className="sticky-header">Employee Name</th>
                         <th keys={'count'} className="sticky-header">Total Annual Leave</th>
                         {this.state.week.map((day) => {
-                            const style = isSameDay(day, this.state.curr) ? { backgroundColor: "#839b97" } : { backgroundColor: "" };
+                            const style = isSameDay(day, this.state.curr) ? { backgroundColor: "#6aa09a" } : { backgroundColor: "" };
                             return (
                                 <th style={style} className="sticky-header">{format(day, 'dd')}</th>)
                         })}
@@ -113,7 +113,7 @@ export default class Dashboard extends React.Component {
                     <tbody>
                         {
                             this.state.data.map((val, i) => {
-                                const style = i % 2 == 0 ? { backgroundColor: "coral" } : { backgroundColor: "#ffdacc" };
+                                const style = i % 2 == 0 ? { backgroundColor: 'coral' } : { backgroundColor: "#ffdacc" };
                                 return (
                                     <tr key={val.employee_id}>
                                         <td>{val.name}</td>
@@ -151,7 +151,7 @@ export default class Dashboard extends React.Component {
                                 if (day < startOfMonth(this.state.month[1][3]) || day > lastDayOfMonth(this.state.month[1][3]))
                                     return null;
                                 else {
-                                    const style = isSameDay(day, this.state.curr) ? { backgroundColor: "#839b97" } : { backgroundColor: "" };
+                                    const style = isSameDay(day, this.state.curr) ? { backgroundColor: "#6aa09a" } : { backgroundColor: "" };
                                     return (<th style={style} className="sticky-header">{format(day, 'dd')}</th>)
                                 }
                             })
@@ -212,7 +212,7 @@ export default class Dashboard extends React.Component {
 
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-                        <td style={{height:'50%', width:'15%', backgroundColor:'#839b97'}}></td>
+                        <td style={{height:'50%', width:'15%', backgroundColor:'#6aa09a'}}></td>
                         <td></td>
                         <td> </td>
                         &nbsp;&nbsp;

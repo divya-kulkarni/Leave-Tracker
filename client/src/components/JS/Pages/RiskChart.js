@@ -98,7 +98,7 @@ export default class RiskChart extends React.Component {
             }
                 TransitionComponent={Fade} TransitionProps={{ timeout: 600 }}
             >
-                {risk ? <td style={{ backgroundColor: "crimson" }}></td> : <td style={{ backgroundColor: "#99bbff" }}></td>}
+                {risk ? <td style={{ backgroundColor: "#ff4d4d" }}></td> : <td style={{ backgroundColor: "#d3d3d3" }}></td>}
             </ToolTip>
         )
     }
@@ -118,7 +118,7 @@ export default class RiskChart extends React.Component {
                     <tr className="thead-light">
                         <th keys={'team_name'} className="sticky-header" >Team</th>
                         {this.state.week.map((day) => {
-                            const style = isSameDay(day, this.state.curr) ? { backgroundColor: "#839b97" } : { backgroundColor: "" };
+                            const style = isSameDay(day, this.state.curr) ? { backgroundColor: "#6aa09a" } : { backgroundColor: "" };
                             return (
                                 <th style={style} className="sticky-header">{format(day, 'd/LLL/yy')}</th>)
                         })}
@@ -163,7 +163,7 @@ export default class RiskChart extends React.Component {
                                 if (day < startOfMonth(this.state.month[1][3]) || day > lastDayOfMonth(this.state.month[1][3]))
                                     return null;
                                 else {
-                                    const style = isSameDay(day, this.state.curr) ? { backgroundColor: "#839b97" } : { backgroundColor: "" };
+                                    const style = isSameDay(day, this.state.curr) ? { backgroundColor: "#6aa09a" } : { backgroundColor: "" };
                                     return (<th style={style} className="sticky-header">{format(day, 'dd')}</th>)
                                 }
                             })
@@ -213,19 +213,19 @@ export default class RiskChart extends React.Component {
             <div className="col" style={{ right: '0' }}>
                 <table className='legend-table'>
                     <tr>
-                        <td style={{ height: '50%', width: '15%', backgroundColor: 'crimson' }}></td>
+                        <td style={{ height: '50%', width: '15%', backgroundColor: '#ff4d4d' }}></td>
                         &nbsp;&nbsp;&nbsp;
                         <td>High Risk</td>
 
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-                        <td style={{ height: '50%', width: '15%', backgroundColor: '#99bbff' }}></td>
+                        <td style={{ height: '50%', width: '15%', backgroundColor: '#d3d3d3' }}></td>
                         &nbsp;&nbsp;&nbsp;
                         <td>Low Risk</td>
 
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-                        <td style={{ height: '50%', width: '15%', backgroundColor: '#839b97' }}></td>
+                        <td style={{ height: '50%', width: '15%', backgroundColor: '#6aa09a' }}></td>
                         <td></td><td> </td>&nbsp;&nbsp;
                         <td>Today</td>
                     </tr>

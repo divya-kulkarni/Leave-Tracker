@@ -52,8 +52,9 @@ class ResourceTeam extends React.Component {
             <>
                 <div className='resource-list form-inline'>
                     <label><b>Team Names&nbsp;&nbsp;&nbsp;</b></label>
-                    <select style={{ padding: 0, margin: 0 }} className="form-control" onChange={this.handleChange}>
-                        <option value="" disabled> Select</option>
+                    <select style={{ padding: 0, margin: 0 }} className="form-control" 
+                        onChange={this.handleChange}>
+                        <option value="" disabled selected> Select</option>
                         {this.teamNames.map((item, index) => {
                             return (
                                 <option key={index} value={item}>{item}</option>

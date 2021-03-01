@@ -4,7 +4,7 @@
 	height: 65px;
 	bottom: 10%;
 	right:8%;
-	background-color:rgb(3, 5, 39);
+	background-color:#212121;
 	color:#FFF;
   display: inline-block;
   border: none;
@@ -12,7 +12,7 @@
 }
 
 .floating-btn:focus{
-  background-color:black !important;
+  background-color:#212121 !important;
   color:#fff;
   box-shadow:0 0 0 .2rem black !important;
   border: black !important;

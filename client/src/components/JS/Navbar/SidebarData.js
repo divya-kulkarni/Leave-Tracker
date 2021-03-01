@@ -2,6 +2,12 @@ import React from 'react';
 import * as MdIcons from 'react-icons/md';
 import * as AiIcons from 'react-icons/ai';
 
+/**
+ * Helper file for navbar.js
+ * Sets navbar tab name, icon and path for linking each tab
+ */
+
+
 export const SidebarData = [
   {
     title: 'Dashboard',
