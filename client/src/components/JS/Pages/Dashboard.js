@@ -4,6 +4,30 @@ import React from 'react';
 import { genMonth, genWeek } from './dateGen';
 
 
+/*
+    Class name : Dashboard
+    parameters = emp_id employee id passed as props from navbar
+    state variables
+        curr:   current date
+        week:   week for currently viewing calendar(Array of dates)
+        monthly : bool to check if monthly calendar is selected
+        month:  month for currently viewing calendar(2D array of dates, divided by weeks)
+        data:   data of employees (name, id, leaves)
+        monthname:  month name of state.month
+        sort:   default sorting of employees (ascending by default)
+
+    functions :
+    handleChange(event)  : changes monthly state depending upon selected dropdown
+    Next() : shifts week/month by 1 week/month ahead
+    Prev() : shifts week/month by 1 week/month back
+    Today() : shifts week/month to current day
+    sortEmp() : Sorts employees acc to sort state
+    getWeeklyCalendar() :  prints weekly calendar
+    getMonthlyCalendar() : prints monthly calendar
+    getLegend() : Prints legend
+*/
+
+
 export default class Dashboard extends React.Component {
 
     constructor(props) {
@@ -11,11 +35,12 @@ export default class Dashboard extends React.Component {
         const week = genWeek()();
         const month = genMonth()();
         const monthname = format(new Date, 'MMMM')
-        this.state = { curr: new Date(), week: week, data: [], monthly: false, month: month, monthname: monthname };
+        this.state = { curr: new Date(), week: week, data: [], monthly: false, month: month, monthname: monthname ,sort:"asc"};
         this.Prev = this.Prev.bind(this);
         this.Next = this.Next.bind(this);
         this.Today = this.Today.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.sortEmp = this.sortEmp.bind(this);
     }
 
     handleChange(event) {
@@ -26,8 +51,24 @@ export default class Dashboard extends React.Component {
             this.setState({ monthly: false });
         }
     }
-    refresh() {
-        window.location.reload();
+
+    sortEmp(event){
+        const sort = event.target.value;
+        const data = Array.from(this.state.data);
+        if(sort=="asc")
+        {   console.log('ascending');
+            data.sort((a,b)=>a.name.localeCompare(b.name))
+        }
+        else
+        {
+            console.log('decending');
+            data.sort((b,a)=>a.name.localeCompare(b.name))
+        }
+        console.log(data);
+        this.setState({
+            sort:sort,
+            data:data
+        });
     }
 
     Today() {
@@ -40,9 +81,9 @@ export default class Dashboard extends React.Component {
     Prev() {
         if (!this.state.monthly) {
             var day = subDays(this.state.week[0], 1);
-
+            var monthname = format(day, 'MMMM');
             var week = genWeek(day)();
-            this.setState({ week: week });
+            this.setState({ week: week, monthname: monthname });
         }
         else {
             var day = subDays(this.state.month[0][0], 1);
@@ -54,10 +95,10 @@ export default class Dashboard extends React.Component {
     Next() {
         if (!this.state.monthly) {
             var day = addDays(this.state.week[6], 1);
-
+            var monthname = format(day, 'MMMM');
             var week = genWeek(day)();
             var week = genWeek(day)();
-            this.setState({ week: week });
+            this.setState({ week: week , monthname: monthname});
         }
         else {
             var day = addDays(this.state.month[this.state.month.length - 1][6], 1);
@@ -70,21 +111,9 @@ export default class Dashboard extends React.Component {
     componentDidMount() {
         fetch('http://localhost:5000/employee').
             then((response) => response.json()).
-            then(data => this.setState({ data: data }));
-    }
-
-    getEmpOnLeave(day) {
-        var employees = this.state.data;
-        var namelist = [];
-
-        employees.forEach(emp => {
-            emp.leaves.forEach(leave => {
-                namelist.push(isWithinInterval(day, { start: new Date(leave.start_date), end: addDays(new Date(leave.start_date), leave.count - 1) }) ? emp.name : null);
-            }
-            );
-        });
-        namelist = namelist.filter(name => name != null);
-        return namelist;
+            then(data => {
+                data.sort((a,b)=>a.name.localeCompare(b.name));
+                this.setState({ data: data })});
     }
 
     getWeeklyCalendar() {
@@ -102,10 +131,10 @@ export default class Dashboard extends React.Component {
                     <tr className="thead-light">
                         <th keys={'em_name'} className="sticky-header">Employee Name</th>
                         <th keys={'count'} className="sticky-header">Total Annual Leave</th>
-                        {this.state.week.map((day) => {
+                        {this.state.week.map((day,i) => {
                             const style = isSameDay(day, this.state.curr) ? { backgroundColor: "#6aa09a" } : { backgroundColor: "" };
                             return (
-                                <th style={style} className="sticky-header">{format(day, 'dd')}</th>)
+                                <th key={i} style={style} className="sticky-header">{format(day, 'dd/MMM/yy')}</th>)
                         })}
                     </tr>
                 </thead>
@@ -124,7 +153,7 @@ export default class Dashboard extends React.Component {
                                                 isWithinInterval(this.state.week[i], { start: new Date(ele.start_date), end: addDays(new Date(ele.start_date), ele.count - 1) }) ? off = true : null
                                             )
                                             return (
-                                                off ? (<td style={style}></td>) : <td></td>)
+                                                off ? (<td key={i} style={style}></td>) : <td key={i}></td>)
                                         })}
                                     </tr>
                                 );
@@ -152,7 +181,8 @@ export default class Dashboard extends React.Component {
                                     return null;
                                 else {
                                     const style = isSameDay(day, this.state.curr) ? { backgroundColor: "#6aa09a" } : { backgroundColor: "" };
-                                    return (<th style={style} className="sticky-header">{format(day, 'dd')}</th>)
+                                    const data = format(day, 'dd');
+                                    return (<th style={style} key={data} className="sticky-header">{data}</th>)
                                 }
                             })
                         ))}
@@ -164,12 +194,12 @@ export default class Dashboard extends React.Component {
                         this.state.data.map((emp, i) => {
                             const style = i % 2 == 0 ? { backgroundColor: "coral" } : { backgroundColor: "#ffdacc" };
                             return (
-                                <tr>
+                                <tr key={i}>
                                     <td className='sticky-name' 
                                     style={{top: document.getElementsByClassName('sticky-header')[0].clientHeight}}>{emp.name}</td>
                                     {this.state.month.map((week, i) => {
                                         return (
-                                            week.map(day => {
+                                            week.map((day,i) => {
                                                 if (day < startOfMonth(this.state.month[1][3]) || day > lastDayOfMonth(this.state.month[1][3]))
                                                     return null;
                                                 else {
@@ -178,7 +208,7 @@ export default class Dashboard extends React.Component {
                                                         isWithinInterval(day, { start: new Date(ele.start_date), end: addDays(new Date(ele.start_date), ele.count - 1) }) ? off = true : null
                                                     )
                                                     return (
-                                                        off ? (<td style={style}></td>) : <td></td>)
+                                                        off ? (<td key={i} style={style}></td>) : <td key={i}></td>)
                                                 }
                                             })
                                         );
@@ -195,7 +225,7 @@ export default class Dashboard extends React.Component {
 
     renderButton() {
         if (this.state.data.length != 0)
-            return (<AddLeaveModal refresh={this.refresh} leaves={this.state.data.filter(emp => emp.employee_id == this.props.emp_id)[0].leaves} emp_id={this.props.emp_id}/>)
+            return (<AddLeaveModal leaves={this.state.data.filter(emp => emp.employee_id == this.props.emp_id)[0].leaves} emp_id={this.props.emp_id}/>)
         else
             return (<AddLeaveModal />)
     }
@@ -204,23 +234,20 @@ export default class Dashboard extends React.Component {
         return(
             <div className="col" style={{right:'0'}}>
                 <table className='legend-table'>
-                    <tr>
-                        <td style={{height:'50%', width:'15%', backgroundColor:'coral'}}></td>&nbsp;
-                        <td style={{height:'50%', width:'15%', backgroundColor:'#ffdacc'}}></td>
-                        &nbsp;&nbsp;
-                        <td>Employee On Leave</td>
-
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-                        <td style={{height:'50%', width:'15%', backgroundColor:'#6aa09a'}}></td>
-                        <td></td>
-                        <td> </td>
-                        &nbsp;&nbsp;
-                        <td>Today</td>
-                    </tr>
-                    <tr>
-                                
-                    </tr>
+                    <tbody>
+                        <tr>
+                            <td style={{height:'50%', width:'15%', backgroundColor:'coral'}}></td>&nbsp;
+                            <td style={{height:'50%', width:'15%', backgroundColor:'#ffdacc'}}></td>
+                            &nbsp;&nbsp;
+                            <td>Employee On Leave</td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <td style={{height:'50%', width:'15%', backgroundColor:'#6aa09a'}}></td>
+                            <td></td>
+                            <td></td>
+                            &nbsp;&nbsp;
+                            <td>Today</td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         );
@@ -243,6 +270,15 @@ export default class Dashboard extends React.Component {
                         >
                             <option value="weekly">Weekly</option>
                             <option value="monthly">Monthly</option>
+                        </select>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <label>Sort:</label>&nbsp;&nbsp;
+                        <select className="form-control" value={this.state.sort}
+                            onChange={this.sortEmp}
+                            style = {{padding:0,margin:0}}
+                        >
+                            <option value="asc">A-Z</option>
+                            <option value="desc">Z-A</option>
                         </select>
                     </div>
                 {this.getLegend()}    

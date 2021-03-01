@@ -53,7 +53,7 @@ class AddLeaveModal extends React.Component {
     });
     const data = await result.json();
     this.setState({ show: false });
-    this.props.refresh();
+    window.location.reload();
   }
 
   tileToDisable(date) {
