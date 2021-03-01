@@ -1,4 +1,4 @@
-.resource-list{
+.resource-list {
     margin-top:2%;
     position: absolute;
     right: 0;
@@ -8,7 +8,7 @@
     padding-left: 27.5%;
 }
 
-.parent-resource-table{
+.parent-resource-table {
     margin-top:5%;
     position: relative; 
     right: 0;
@@ -16,31 +16,28 @@
     margin-left: 20%;
 }
 
-.resource-table-details{
-   
+.resource-table-details {
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size:large;
     margin-bottom: 2%;
     margin-left: 10%;
 }
 
-.resource-table-header{
+.resource-table-header {
     background-color:black;
     color: white;
     position: sticky;
     top: 0;
 }
 
-.child-resource-table{
-    
+.child-resource-table {    
     max-height: 60vh;
     overflow: auto;
     width:80%;
     margin-left: 10%;
 }
 
-.resource-table{
+.resource-table {
     width: 100%;
     background-color: lightgray;
-   
-  }   
+}   

@@ -2,16 +2,13 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    /* overflow: hidden;     */
 }
-
 
 .login-bg {
     background-color: #060b26;  
     height: 100vh;
     padding: 10%;
 }
-
 
 .login-form {
     width: 40%;
@@ -23,8 +20,7 @@
     background-color:coral;       
 }
 
-
-.form-input{
+.form-input {
     width: 70%;
     height: 2%;
     padding: 5%; 
@@ -34,8 +30,7 @@
     margin: 0% 15%;     
 }
 
-
-.login-btn{
+.login-btn {
     color: coral;  
     width: 150px;
     height: 40px;  
@@ -57,7 +52,6 @@
     box-shadow: none;
     animation: ani9 0.4s ease-in-out infinite alternate;      /* buttons hover Animation */
 }
-
 
 @keyframes ani9 {
     0% {
