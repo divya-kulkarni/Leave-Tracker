@@ -3,7 +3,7 @@ const app = express();
 const port = 5000;
 const cors = require('cors');
 const conn = require('./db/dbconn');
-const {differenceInDays,startOfDay,format,addDays} = require('date-fns');
+const {differenceInDays,startOfDay,format} = require('date-fns');
 
 //middleware
 app.use(cors());
@@ -11,7 +11,16 @@ app.use(express.json());
 
 //Routes
 
-//Login 
+/**
+ *  use - fetches employee details from the database if the entered id is valid
+ * 
+ *  returns an object which contains
+ *          success : bool stating if login was successful
+ *          name : name of employee if login is successful
+ *          message :  string decribing success or failure
+ *          
+ */ 
+
 app.post('/login',(req,res)=>{
     var empid = req.body.employee_id;
     var pass = req.body.pass;
@@ -52,12 +61,18 @@ app.post('/login',(req,res)=>{
             });
         }
         catch(err){
-            console.log(err)
+            console.log(err);
         }
     }
 });
 
 //Adding leave
+/**
+ *  Use - adding leave for logged in employee
+ *     
+ *  returns : insert id of new leave entry
+ * 
+ */
 app.post('/addLeave',(req,res) =>{
     var start_dt= req.body.startDate,
     end_dt=req.body.endDate,
@@ -70,10 +85,9 @@ app.post('/addLeave',(req,res) =>{
     }
     else{
         day_count = differenceInDays(new Date(end_dt),new Date(start_dt)) +1;
-        console.log(day_count)
-        end_dt=format(startOfDay(new Date(end_dt)),'yyyy-MM-dd')
+        end_dt=format(startOfDay(new Date(end_dt)),'yyyy-MM-dd');
     }   
-    start_dt = format(startOfDay(new Date(start_dt)),'yyyy-MM-dd')   
+    start_dt = format(startOfDay(new Date(start_dt)),'yyyy-MM-dd');
     try{
 
        conn.query('INSERT INTO leaves (start_date,end_date,leave_count,employee_id) VALUES (?,?,?,?);',[start_dt,end_dt,day_count,emp_id],(err,result)=>{
@@ -81,21 +95,26 @@ app.post('/addLeave',(req,res) =>{
                 console.log(err);
             else{
                 
-                res.send({data: result.insertId,
-                table:"leave"});
+                res.send({data: result.insertId});
             }
         });
     }
     catch(err)
     {
-        console.log(err)
+        console.log(err);
     }
 });
 
 //Fetch team data and members
+/**
+ *  Use - fetches team data (team name, threshold, id, employees, employee_id) from the database
+ * 
+ *  returns : an array of objects, where each object is a team containing team name, id, threshold and list of employees
+ */
+
 app.get('/team',(req,res)=>{
     try{
-        const queryStmt = "select employee_name,employee_id,team_name,threshold from employee as e,employee_team as et, team as t where (e.employee_id=et.e_id AND et.t_id = t.team_id )"
+        const queryStmt = "select employee_name,employee_id,team_name,threshold from employee as e,employee_team as et, team as t where (e.employee_id=et.e_id AND et.t_id = t.team_id )";
         conn.query(queryStmt,(err,results)=>{
             if(err)
                 console.log(err)
@@ -116,30 +135,35 @@ app.get('/team',(req,res)=>{
 });
 
 //fetch employee list and leaves
+/**
+ *  Use - fetches list of employees along with their leaves 
+ * 
+ *  returns -  array of objects, where each object is an employee and contains name,id,total_leave,list of leaves 
+ */
+
 app.get('/employee',(req,res)=>{
     try{
         const queryStmt = "select e.employee_id,employee_name as name,leave_count as count,date_format(start_date,'%Y-%m-%d') as start_date from employee as e,leaves as l where e.employee_id = l.employee_id;select employee_name, employee_id from employee ;"
         conn.query(queryStmt,(err,results)=>{
-            if(err)
-            {   
+            if(err){
+            
                 res.json({
                     success : false,
                     message : 'Error fetching data form db'
                 })
                 
             }
-            if(results[1].length == 0)
-            {   
+            if(results[1].length == 0){
+            
                 res.json({
                     success : false,
                     message : 'No employees'
                 })
             }
-            if(results[1].length>0)
-            {   
+            if(results[1].length>0){
+            
                 var employees= results[1].map(emp=>({employee_id:emp.employee_id,name:emp.employee_name,count:0,leaves:[]}));
                 employees = [...new Map(employees.map(item=>[item.employee_id,item])).values()]
-                console.log(employees)
                 results[0].forEach(emp=>{
                     var index = employees.map((e)=>{return e.employee_id}).indexOf(emp.employee_id);
                     employees[index].leaves.push({start_date:startOfDay(new Date(emp.start_date)),count:emp.count});
@@ -157,6 +181,12 @@ app.get('/employee',(req,res)=>{
 });
 
 //fetch Team detail with leave
+/**
+ *  Use - fetch team wise employee list and their leaves along with team details
+ * 
+ *  returns - array of object, where each object is a team containing team name,id,threshold,employee_count 
+ *           and array of leaves taken by employees of that team
+ */
 app.get('/teamLeave',(req,res)=>{
     try{
         const queryStmt="select e_id,t_id,team_name,threshold,employee_name,leave_count,start_date from leaves as l,employee_team as et,employee as e,team as t where (et.e_id = l.employee_id and e.employee_id = et.e_id and t.team_id = et.t_id);select t_id , count(e_id) as emp_count from employee_team group by t_id;"
@@ -174,7 +204,6 @@ app.get('/teamLeave',(req,res)=>{
                 });
             }
             if(results[0].length > 0){
-                console.log(results[1].filter(tm=>tm.t_id == 3));
                 var team = results[0].map(data=>data.t_id);
                 team = Array.from(new Set(team));
                 team = team.map(data=>({team_id:data,leaves:[]}));
@@ -185,7 +214,6 @@ app.get('/teamLeave',(req,res)=>{
                     team[i]['emp_count'] = results[1].filter(tm=>tm.t_id == team[i].team_id)[0].emp_count;
                     team[i].leaves.push({emp_id:data.e_id,emp_name:data.employee_name,start_date:data.start_date,count:data.leave_count});
                 });
-                console.log(team);
                 res.json(team);
             }
         });
