@@ -13,7 +13,6 @@ import { genMonth, genWeek } from './dateGen';
         monthly : bool to check if monthly calendar is selected
         month:  month for currently viewing calendar(2D array of dates, divided by weeks)
         data:   data of employees (name, id, leaves)
-        monthname:  month name of state.month
         sort:   default sorting of employees (ascending by default)
 
     functions :
@@ -34,8 +33,7 @@ export default class Dashboard extends React.Component {
         super(props);
         const week = genWeek()();
         const month = genMonth()();
-        const monthname = format(new Date, 'MMMM')
-        this.state = { curr: new Date(), week: week, data: [], monthly: false, month: month, monthname: monthname ,sort:"asc"};
+        this.state = { curr: new Date(), week: week, data: [], monthly: false, month: month,sort:"asc"};
         this.Prev = this.Prev.bind(this);
         this.Next = this.Next.bind(this);
         this.Today = this.Today.bind(this);
@@ -74,37 +72,31 @@ export default class Dashboard extends React.Component {
     Today() {
         const week = genWeek(this.state.curr)();
         const month = genMonth(this.state.curr)();
-        const monthname = format(this.state.curr, 'MMMM');
-        this.setState({ week: week, month: month, monthname: monthname });
+        this.setState({ week: week, month: month});
     }
 
     Prev() {
         if (!this.state.monthly) {
             var day = subDays(this.state.week[0], 1);
-            var monthname = format(day, 'MMMM');
             var week = genWeek(day)();
-            this.setState({ week: week, monthname: monthname });
+            this.setState({ week: week});
         }
         else {
             var day = subDays(this.state.month[0][0], 1);
-            var monthname = format(day, 'MMMM');
             var month = genMonth(day)();
-            this.setState({ month: month, monthname: monthname });
+            this.setState({ month: month});
         }
     }
     Next() {
         if (!this.state.monthly) {
             var day = addDays(this.state.week[6], 1);
-            var monthname = format(day, 'MMMM');
             var week = genWeek(day)();
-            var week = genWeek(day)();
-            this.setState({ week: week , monthname: monthname});
+            this.setState({ week: week });
         }
         else {
             var day = addDays(this.state.month[this.state.month.length - 1][6], 1);
-            var monthname = format(day, 'MMMM');
             var month = genMonth(day)();
-            this.setState({ month: month, monthname: monthname });
+            this.setState({ month: month});
         }
     }
 
@@ -123,7 +115,7 @@ export default class Dashboard extends React.Component {
                     <tr className="thead-dark ">
                         <th colSpan={2} >
                             <h5 className="month-name">
-                                {this.state.monthname}/{format(this.state.month[1][3], 'yyyy')}
+                                {format(this.state.week[0], 'MMMM/yyyy')}
                             </h5>
                         </th>
                         {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((val, i) => (<th key={i} >{val}</th>))}
@@ -170,7 +162,7 @@ export default class Dashboard extends React.Component {
                 <thead >
                     <tr className="thead-dark">
                         <th colSpan={getDaysInMonth(this.state.month[1][3]) + 1} >
-                            <h5 className='text-center month-name'>{this.state.monthname}/{format(this.state.month[1][3], 'yyyy')}</h5>
+                            <h5 className='text-center month-name'>{format(this.state.month[1][3], 'MMMM/yyyy')}</h5>
                         </th>
                     </tr>
                     <tr className="thead-light">

@@ -63,7 +63,7 @@ class Navbar extends React.Component {
               <div className='avatar-item'>
                 <div className={classes.root} >
                   <Avatar alt={this.props.emp_name.toUpperCase()}
-                    src="./components/images/jordan-avatar.jpg"
+                    src="E:\Study Material\BLUEpineapple\Leave-Tracker\client\src\components\CSS\error-img.png"
                     className={classes.large} />
                 </div>
                 <h4 className='avatar'>{this.props.emp_name.toUpperCase()}</h4>
