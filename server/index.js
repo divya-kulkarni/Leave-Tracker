@@ -32,7 +32,7 @@ app.post('/login',(req,res)=>{
     else {    
         try{
             conn.query('SELECT * FROM employee WHERE employee_id = ? LIMIT 1',[empid],(err, result)=>{
-                console.log(result);
+                
                 if(err)   
                     res.json({
                         success : false,
@@ -92,7 +92,7 @@ app.post('/addLeave',(req,res) =>{
 
        conn.query('INSERT INTO leaves (start_date,end_date,leave_count,employee_id) VALUES (?,?,?,?);',[start_dt,end_dt,day_count,emp_id],(err,result)=>{
             if(err)
-                console.log(err);
+                res.status(500).send({ error: 'Something failed!',message:err });
             else{
                 
                 res.send({data: result.insertId});
@@ -101,7 +101,7 @@ app.post('/addLeave',(req,res) =>{
     }
     catch(err)
     {
-        console.log(err);
+        res.status(500).send({ error: 'Something failed!',message:err });
     }
 });
 
@@ -228,3 +228,5 @@ app.listen(port, ()=>{
 
     console.log("Server started on port : "+port);
 });
+
+module.exports = app;
