@@ -51,7 +51,8 @@ class Navbar extends React.Component {
       <>
         <IconContext.Provider value={{ color: '#fff' }}>
           <div className='navbar'>
-            <Grid container justify="flex-end" style={{ alignItems: 'center' }}>
+            <Grid container justify="space-between">
+              <h2 className='logo'>Riskly</h2>
               <button className="logout-btn" name="logout"
                 onClick={() => { localStorage.clear(); this.props.setEmpid(null); }}>
                 <span>Logout</span>
@@ -66,7 +67,7 @@ class Navbar extends React.Component {
                     src="E:\Study Material\BLUEpineapple\Leave-Tracker\client\src\components\CSS\error-img.png"
                     className={classes.large} />
                 </div>
-                <h4 className='avatar'>{this.props.emp_name.toUpperCase()}</h4>
+                <h4 className='avatar'>{this.props.emp_name[0].toUpperCase()}{this.props.emp_name.slice(1)}</h4>
               </div>
               {SidebarData.map((item, index) => {
                 return (

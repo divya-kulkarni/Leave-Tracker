@@ -54,7 +54,7 @@ class Login extends React.Component {
       return (
         <div className="login-bg">
           <form className="login-form" onSubmit={this.handleSubmit}>
-            <h2 style={{color: "white"}}><center>Sign in</center></h2>
+            <center><h1 className='logo-login'>Riskly</h1></center>
             <br />  
             <input className="form-input" id="txt-input" name="employee_id" type="text" placeholder="Employee Id"
             required value={this.state.employee_id} 

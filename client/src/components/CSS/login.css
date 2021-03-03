@@ -1,7 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Recursive:wght@600&display=swap');
+
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+}
+
+.logo-login{
+    font-family: 'Recursive', sans-serif;
+    color:white;
 }
 
 .login-bg {
