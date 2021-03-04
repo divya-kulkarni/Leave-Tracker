@@ -6,7 +6,7 @@ chai.should();
 
 chai.use(chaiHttp);
 
-describe('Employee related APIs' ,()=>{
+describe('Employee related POST APIs' ,()=>{
 
     /**
      * Post method to authenticate login
@@ -137,11 +137,164 @@ describe('Employee related APIs' ,()=>{
 
 });
 
-// describe('Employees related API',()=>{
+function checkDup(data){
+    var len = data.length,tmp={};
 
-//     describe('GET /employee',()=>{
+    while(len--)
+    {
+        var val = data[len];
+        if(tmp[JSON.stringify(val)])
+            return false;
+        tmp[JSON.stringify(val)] =true;
+    }
+    return false;
+}
 
-//         it('')
-//     });
+describe('Employees related API',()=>{
 
-// });
+    describe('GET /employee',()=>{
+
+        it('It should return an array of employees',(done)=>{
+            chai.request(server)
+                .get('/employee')
+                .end((err,res)=>{
+                    res.should.have.status(200);
+                    res.body.should.be.a('array');
+                done();
+                });
+        });
+
+        it('It should return array of employees having employee details',(done)=>{
+            chai.request(server)
+                .get('/employee')
+                .end((err,res)=>{
+                    res.should.have.status(200);
+                    res.body[0].should.have.property('employee_id');
+                    res.body[0].should.have.property('name');
+                    res.body[0].should.have.property('count');
+                    res.body[0].should.have.property('leaves');
+                done();
+                });
+        });
+
+        it('It should return array of employees having employee leaves in an array',(done)=>{
+            chai.request(server)
+                .get('/employee')
+                .end((err,res)=>{
+                    res.should.have.status(200);
+                    res.body[0].should.have.property('leaves');
+                    res.body[0].leaves.should.be.a('array');
+                done();
+                });
+        });
+
+        it('It should return an array of distinct employees',(done)=>{
+            chai.request(server)
+                .get('/employee')
+                .end((err,res)=>{
+                    res.should.have.status(200);
+                    checkDup(res).should.be.eq(false);
+                done();
+                });
+        });
+
+    });
+
+});
+
+describe('Team realted APIs',()=>{
+
+    describe('GET /team',()=>{
+
+        it('It should return an array of teams',(done)=>{
+            chai.request(server)
+                .get('/team')
+                .end((err,res)=>{
+                    res.should.have.status(200);
+                    res.body.should.be.a('array');
+                done();
+                });
+        });
+
+        it('It should return array of teams having team details',(done)=>{
+            chai.request(server)
+                .get('/team')
+                .end((err,res)=>{
+                    res.should.have.status(200);
+                    res.body[0].should.have.property('team_name');
+                    res.body[0].should.have.property('threshold');
+                    res.body[0].should.have.property('emp');
+                done();
+                });
+        });
+
+        it('It should return array of teams having list of employees in an array',(done)=>{
+            chai.request(server)
+                .get('/team')
+                .end((err,res)=>{
+                    res.should.have.status(200);
+                    res.body[0].should.have.property('emp');
+                    res.body[0].emp.should.be.a('array');
+                done();
+                });
+        });
+
+        it('It should return an array of distinct teams',(done)=>{
+            chai.request(server)
+                .get('/team')
+                .end((err,res)=>{
+                    res.should.have.status(200);
+                    checkDup(res).should.be.eq(false);
+                done();
+                });
+        });
+    });
+
+    describe('GET /teamLeave',()=>{
+        it('It should return an array of teams',(done)=>{
+            chai.request(server)
+                .get('/teamLeave')
+                .end((err,res)=>{
+                    res.should.have.status(200);
+                    res.body.should.be.a('array');
+                done();
+                });
+        });
+
+        it('It should return array of teams having team details and employee leaves',(done)=>{
+            chai.request(server)
+                .get('/teamLeave')
+                .end((err,res)=>{
+                    res.should.have.status(200);
+                    res.body[0].should.have.property('team_id');
+                    res.body[0].should.have.property('threshold');
+                    res.body[0].should.have.property('name');
+                    res.body[0].should.have.property('emp_count');
+                    res.body[0].should.have.property('leaves');
+                done();
+                });
+        });
+
+        it('It should return array of teams having list of leaves of employees in an array',(done)=>{
+            chai.request(server)
+                .get('/teamLeave')
+                .end((err,res)=>{
+                    res.should.have.status(200);
+                    res.body[0].should.have.property('leaves');
+                    res.body[0].leaves.should.be.a('array');
+                done();
+                });
+        });
+
+        it('It should return an array of distinct teams',(done)=>{
+            chai.request(server)
+                .get('/teamLeave')
+                .end((err,res)=>{
+                    res.should.have.status(200);
+                    checkDup(res).should.be.eq(false);
+                done();
+                });
+        });
+    });
+
+});

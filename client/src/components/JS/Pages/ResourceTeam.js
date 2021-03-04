@@ -44,6 +44,7 @@ class ResourceTeam extends React.Component {
     handleChange(event) {
         const value = event.target.value;
         var empList = this.data.filter(team => team.team_name == value)[0].emp;
+        empList = empList.sort((a, b) => a.name.localeCompare(b.name));
         this.setState({
             team_name: value,
             threshold: this.data.filter(team => team.team_name == value)[0].threshold,
