@@ -43,7 +43,6 @@
 .leave-form{
   align-content: center;
   display: grid;
-  height: 45vh;
 }
 
 .datePicker{

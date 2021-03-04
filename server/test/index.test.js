@@ -100,9 +100,25 @@ describe('Employee related APIs' ,()=>{
                 });
         });
 
-        it('It should return ERROR when invalid input is sent',(done)=>{
+        it('It should return ERROR when invalid start date is sent',(done)=>{
             const body = {
                 startDate:null,
+                endDate:null,
+                employee_id:101
+            }
+            chai.request(server)
+                .post('/addLeave')
+                .send(body)
+                .end((err,res)=>{
+                    res.should.have.status(400);
+                    res.body.should.have.property('error').eq('Invalid Start Date!');
+                done();
+                });
+        });
+
+        it('It should return ERROR when invalid employee_id is sent',(done)=>{
+            const body = {
+                startDate:'2021/03/28',
                 endDate:null,
                 employee_id:109
             }
@@ -110,11 +126,12 @@ describe('Employee related APIs' ,()=>{
                 .post('/addLeave')
                 .send(body)
                 .end((err,res)=>{
-                    res.should.have.status(500);
+                    res.should.have.status(400);
                     res.body.should.have.property('error').eq('Something failed!');
                 done();
                 });
         });
+
 
     });
 

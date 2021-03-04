@@ -79,6 +79,7 @@ app.post('/addLeave',(req,res) =>{
     emp_id=parseInt(req.body.employee_id),
     day_count;
     
+
     if(start_dt == end_dt || !end_dt){
         day_count=1;
         end_dt=null;
@@ -87,21 +88,26 @@ app.post('/addLeave',(req,res) =>{
         day_count = differenceInDays(new Date(end_dt),new Date(start_dt)) +1;
         end_dt=format(startOfDay(new Date(end_dt)),'yyyy-MM-dd');
     }   
-    start_dt = format(startOfDay(new Date(start_dt)),'yyyy-MM-dd');
+    
     try{
-
-       conn.query('INSERT INTO leaves (start_date,end_date,leave_count,employee_id) VALUES (?,?,?,?);',[start_dt,end_dt,day_count,emp_id],(err,result)=>{
-            if(err)
-                res.status(500).send({ error: 'Something failed!',message:err });
-            else{
-                
-                res.send({data: result.insertId});
-            }
-        });
+        if(start_dt == null)
+            res.status(400).send({error:'Invalid Start Date!'});
+        else
+        {
+            start_dt = format(startOfDay(new Date(start_dt)),'yyyy-MM-dd');
+            conn.query('INSERT INTO leaves (start_date,end_date,leave_count,employee_id) VALUES (?,?,?,?);',[start_dt,end_dt,day_count,emp_id],(err,result)=>{
+                if(err)
+                    res.status(400).send({ error: 'Something failed!',message:err });
+                else{
+                    
+                    res.send({data: result.insertId});
+                }
+            });
+        }
     }
     catch(err)
     {
-        res.status(500).send({ error: 'Something failed!',message:err });
+        res.status(500).send({ error: 'Something failed!',message:err }).end();
     }
 });
 
